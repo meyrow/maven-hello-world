@@ -1,0 +1,39 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+docs/
+*.txt
+
+# IDE
+.idea
+.vscode
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test files
+src/test/
+
+# Backup files
+*.bak
+*.swp
+*.tmp
+*~

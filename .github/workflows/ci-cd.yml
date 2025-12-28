@@ -1,0 +1,120 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Extract version from pom.xml
+        id: version
+        run: |
+          cd myapp
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Build with Maven
+        run: |
+          cd myapp
+          mvn clean package -DskipTests
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./myapp
+          push: true
+          tags: |
+            ilanm/maven-hello-world:${{ steps.version.outputs.VERSION }}
+            ilanm/maven-hello-world:latest
+          cache-from: type=registry,ref=ilanm/maven-hello-world:latest
+          cache-to: type=inline
+
+      - name: Update Helm chart values
+        run: |
+          cd helm-chart
+          sed -i "s|tag:.*|tag: \"${{ steps.version.outputs.VERSION }}\"|g" values.yaml
+          cat values.yaml
+
+      - name: Commit and push Helm chart updates
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add helm-chart/values.yaml
+          git diff --staged --quiet || git commit -m "chore: update image tag to ${{ steps.version.outputs.VERSION }}"
+          git push
+
+      - name: Create GitHub Release
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          release_name: Release v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Changes in this release
+            - Docker image: `ilanm/maven-hello-world:${{ steps.version.outputs.VERSION }}`
+            - Deployed to Docker Hub
+            - Helm chart updated
+          draft: false
+          prerelease: false
+        continue-on-error: true
+
+  test-docker-image:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version from pom.xml
+        id: version
+        run: |
+          cd myapp
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Test Docker image
+        run: |
+          docker pull ilanm/maven-hello-world:${{ steps.version.outputs.VERSION }}
+          docker run -d -p 8080:8080 --name test-app ilanm/maven-hello-world:${{ steps.version.outputs.VERSION }}
+          
+          # Wait for app to start
+          sleep 30
+          
+          # Test health endpoint
+          curl -f http://localhost:8080/health || exit 1
+          
+          echo "✅ Health check passed!"
+          
+          # Cleanup
+          docker stop test-app
+          docker rm test-app
