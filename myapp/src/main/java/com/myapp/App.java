@@ -47,7 +47,7 @@ public class App {
         public Map<String, Object> apiHealth() {
             Map<String, Object> response = new HashMap<>();
             response.put("status", "UP");
-            response.put("application", "Maven Hello World Ilan");
+            response.put("application", "Maven Hello World Ilan 2");
             response.put("version", VERSION);
             response.put("uptime", getUptime());
             return response;
