@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-infrastructure
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/meyrow/maven-hello-world.git
+    targetRevision: HEAD
+    path: cluster-infrastructure
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+    - CreateNamespace=true
