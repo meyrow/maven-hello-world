@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "maven-hello-world.fullname" . }}
+  labels:
+    {{- include "maven-hello-world.labels" . | nindent 4 }}
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - 0584004880.com
+    secretName: maven-hello-world-tls
+  rules:
+  - host: 0584004880.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "maven-hello-world.fullname" . }}
+            port:
+              number: 80
