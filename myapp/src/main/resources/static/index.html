@@ -38,27 +38,52 @@
         }
 
         .profile-image {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    overflow: hidden;
-}
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
 
-.profile-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
 
         .profile-info p {
             color: #718096;
             font-size: 16px;
             margin-bottom: 5px;
+        }
+
+        .contact-info {
+            margin-top: 12px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .contact-info a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: #5a67d8;
         }
 
         .badge {
@@ -228,6 +253,16 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             color: #718096;
         }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            color: #5a67d8;
+        }
     </style>
 </head>
 <body>
@@ -271,51 +306,46 @@
         return (
             <div className="container">
                 {/* Header with Profile */}
-                {/* Header with Profile */}
-<div className="header">
-    <div className="profile-image">
-    <img
-        src="https://lh3.googleusercontent.com/a/ACg8ocLrnyOd_xegnVjfkJFaOu0WsYNdWopOJv2qeK4BTMvoEPNe7Sn8=s340-p-k-no"
-        alt="Ilan"
-        onError={(e) => {e.target.style.display='none'; e.target.parentElement.innerHTML='IL'}}
-    />
-</div>
-    <div className="profile-info">
-        <h1>Ilan Meyrowitsch</h1>
-        <p style={{fontSize: '18px', marginBottom: '8px'}}>
-            <strong>Cloud-Native Application Platform</strong>
-        </p>
-        <p style={{color: '#4a5568', marginBottom: '5px'}}>
-            🚀 ML Engineering | Cloud Architecture | DevOps | Java
-        </p>
-        <p style={{color: '#4a5568', marginBottom: '5px'}}>
-            🎓 AWS Solutions Architect | Data Mining (MA)
-        </p>
+                <div className="header">
+                    <div className="profile-image">
+                        <img
+                            src="https://lh3.googleusercontent.com/a/ACg8ocLrnyOd_xegnVjfkJFaOu0WsYNdWopOJv2qeK4BTMvoEPNe7Sn8=s340-p-k-no"
+                            alt="Ilan Melamud"
+                            onError={(e) => {e.target.style.display='none'; e.target.parentElement.innerHTML='IL'}}
+                        />
+                    </div>
+                    <div className="profile-info">
+                        <h1>Ilan Melamud</h1>
+                        <p style={{fontSize: '18px', marginBottom: '8px'}}>
+                            <strong>Cloud-Native Application Platform</strong>
+                        </p>
+                        <p style={{color: '#4a5568', marginBottom: '5px'}}>
+                            🚀 ML Engineering | Cloud Architecture | DevOps
+                        </p>
+                        <p style={{color: '#4a5568', marginBottom: '5px'}}>
+                            🎓 AWS Solutions Architect | Data Mining (MA)
+                        </p>
 
-        {/* Contact Information */}
-        <div style={{
-            marginTop: '12px',
-            display: 'flex',
-            gap: '20px',
-            flexWrap: 'wrap',
-            fontSize: '14px',
-            color: '#2d3748'
-        }}>
-            <span>📱 <a href="tel:+972584004880" style={{color: '#667eea', textDecoration: 'none'}}>
-                +972-58-400-4880
-            </a></span>
-            <span>💬 <a href="https://wa.me/972584004880" target="_blank" rel="noopener noreferrer" style={{color: '#667eea', textDecoration: 'none'}}>
-                WhatsApp
-            </a></span>
-        </div>
+                        {/* Contact Information */}
+                        <div className="contact-info">
+                            <span>📧 <a href="mailto:ilan.melamud@example.com">
+                                ilan.melamud@example.com
+                            </a></span>
+                            <span>📱 <a href="tel:+972584004880">
+                                +972-58-400-4880
+                            </a></span>
+                            <span>💬 <a href="https://wa.me/972584004880" target="_blank" rel="noopener noreferrer">
+                                WhatsApp
+                            </a></span>
+                        </div>
 
-        <div style={{marginTop: '10px'}}>
-            <span className="badge">Production-Ready</span>
-            <span className="badge">GitOps Enabled</span>
-            <span className="badge">Auto-Scaling</span>
-        </div>
-    </div>
-</div>
+                        <div style={{marginTop: '10px'}}>
+                            <span className="badge">Production-Ready</span>
+                            <span className="badge">GitOps Enabled</span>
+                            <span className="badge">Auto-Scaling</span>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Main Grid */}
                 <div className="grid">
@@ -473,14 +503,12 @@
                     <p style={{fontSize: '14px', marginTop: '5px'}}>
                         Automated deployment • Continuous delivery • Production monitoring
                     </p>
+                    <p style={{fontSize: '14px', marginTop: '15px'}}>
+                        <a href="/tutorial.html">📚 View Complete Tutorial Guide →</a>
+                    </p>
                     <p style={{fontSize: '12px', marginTop: '10px', color: '#a0aec0'}}>
-    Demonstrating modern software engineering and cloud infrastructure expertise
-</p>
-<p style={{fontSize: '14px', marginTop: '15px'}}>
-    <a href="/tutorial.html" style={{color: '#667eea', textDecoration: 'none', fontWeight: 600}}>
-        📚 View Complete Tutorial Guide →
-    </a>
-</p>
+                        Demonstrating modern software engineering and cloud infrastructure expertise
+                    </p>
                 </div>
             </div>
         );

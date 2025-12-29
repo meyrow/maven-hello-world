@@ -28,12 +28,48 @@
             padding: 30px;
             margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-text {
+            flex: 1;
         }
 
         .header h1 {
             color: #2d3748;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+            font-size: 32px;
+        }
+
+        .header p {
+            color: #718096;
+            margin-top: 5px;
+            font-size: 16px;
+        }
+
+        .header-links {
+            text-align: center;
         }
 
         .back-link {
@@ -43,8 +79,9 @@
             padding: 10px 20px;
             border-radius: 8px;
             text-decoration: none;
-            margin-top: 15px;
+            margin: 5px;
             font-weight: 600;
+            transition: background 0.3s;
         }
 
         .back-link:hover {
@@ -185,15 +222,38 @@
             color: #155724;
             margin-bottom: 10px;
         }
+
+        code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <h1>🔄 Complete GitOps Deployment Flow</h1>
-        <p style="color: #718096; margin-top: 10px;">From Code Commit to Production - Fully Automated</p>
-        <a href="/tutorial.html" class="back-link">← Back to Tutorial</a>
-        <a href="/" class="back-link">🏠 Dashboard</a>
+        <div class="header-content">
+            <div class="profile-image">
+                <img
+                        src="https://lh3.googleusercontent.com/a/ACg8ocLrnyOd_xegnVjfkJFaOu0WsYNdWopOJv2qeK4BTMvoEPNe7Sn8=s340-p-k-no"
+                        alt="Ilan Melamud"
+                        onerror="this.parentElement.innerHTML='IL'; this.parentElement.style.display='flex'; this.parentElement.style.alignItems='center'; this.parentElement.style.justifyContent='center'; this.parentElement.style.fontSize='24px'; this.parentElement.style.fontWeight='bold'; this.parentElement.style.color='white'; this.parentElement.style.background='linear-gradient(135deg, #667eea 0%, #764ba2 100%)'"
+                />
+            </div>
+            <div class="header-text">
+                <h1>🔄 Complete GitOps Deployment Flow</h1>
+                <p>From Code Commit to Production - Fully Automated</p>
+                <p style="font-size: 14px; margin-top: 5px;">By Ilan Melamud</p>
+            </div>
+        </div>
+        <div class="header-links">
+            <a href="/" class="back-link">🏠 Dashboard</a>
+            <a href="/tutorial.html" class="back-link">📚 Tutorial</a>
+        </div>
     </div>
 
     <div class="diagram">
@@ -286,10 +346,13 @@
                         <strong>Strategy:</strong> Multi-stage Dockerfile
                     </div>
                     <div class="stage-detail">
-                        <strong>Stage 1:</strong> Maven build (builder)
+                        <strong>Stage 1:</strong> Maven build (builder) - 755MB
                     </div>
                     <div class="stage-detail">
-                        <strong>Stage 2:</strong> Runtime with JRE only (328MB)
+                        <strong>Stage 2:</strong> Runtime with JRE only - 328MB (57% smaller!)
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Security:</strong> Non-root user (appuser), minimal attack surface
                     </div>
                     <div class="stage-detail">
                         <strong>Optimization:</strong> Layer caching, .dockerignore
@@ -309,6 +372,9 @@
                 </div>
                 <div class="stage-content">
                     <div class="stage-detail">
+                        <strong>Strategy:</strong> Base Version (pom.xml) + Git SHA
+                    </div>
+                    <div class="stage-detail">
                         <strong>Format:</strong> {base-version}-{git-sha}
                     </div>
                     <div class="stage-detail">
@@ -316,9 +382,12 @@
                     </div>
                     <div class="stage-detail">
                         <strong>Tags Created:</strong><br>
-                        - 1.0.1-abc123f (unique)<br>
-                        - 1.0.1 (base version)<br>
-                        - latest (most recent)
+                        - <code>1.0.1-abc123f</code> (unique - used by ArgoCD)<br>
+                        - <code>1.0.1</code> (base version - stable reference)<br>
+                        - <code>latest</code> (most recent - convenience)
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Why Git SHA?</strong> Uniqueness, traceability, auto-deployment, rollback capability
                     </div>
                     <div class="timing">⏱️ Instant</div>
                 </div>
@@ -335,16 +404,20 @@
                 </div>
                 <div class="stage-content">
                     <div class="stage-detail">
-                        <strong>Registry:</strong> Docker Hub
+                        <strong>Registry:</strong> Docker Hub (public container registry)
                     </div>
                     <div class="stage-detail">
                         <strong>Repository:</strong> ilanm/maven-hello-world
                     </div>
                     <div class="stage-detail">
-                        <strong>Authentication:</strong> Docker Hub credentials (secrets)
+                        <strong>Authentication:</strong> Docker Hub credentials (GitHub secrets)
                     </div>
                     <div class="stage-detail">
-                        <strong>Result:</strong> Container image available publicly
+                        <strong>Result:</strong> Container image available publicly at<br>
+                        hub.docker.com/r/ilanm/maven-hello-world
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Image Size:</strong> 328MB (optimized with multi-stage build)
                     </div>
                     <div class="timing">⏱️ 1-2 minutes</div>
                 </div>
@@ -364,10 +437,13 @@
                         <strong>File:</strong> helm-chart/values.yaml
                     </div>
                     <div class="stage-detail">
-                        <strong>Update:</strong> image.tag: "1.0.1-abc123f"
+                        <strong>Update:</strong> <code>image.tag: "1.0.1-abc123f"</code>
                     </div>
                     <div class="stage-detail">
                         <strong>Command:</strong> <code>sed -i "s|tag:.*|tag: \"$VERSION\"|g" values.yaml</code>
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Why?</strong> Helm chart is the deployment configuration that ArgoCD reads
                     </div>
                     <div class="timing">⏱️ Instant</div>
                 </div>
@@ -390,7 +466,13 @@
                         <strong>Commit Message:</strong> "chore: update image tag to 1.0.1-abc123f"
                     </div>
                     <div class="stage-detail">
-                        <strong>Result:</strong> Git is now the source of truth
+                        <strong>Author:</strong> GitHub Actions (automated commit)
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Result:</strong> Git is now the single source of truth for deployment state
+                    </div>
+                    <div class="stage-detail">
+                        <strong>GitOps Principle:</strong> All cluster state changes go through Git
                     </div>
                     <div class="timing">⏱️ Instant</div>
                 </div>
@@ -407,16 +489,22 @@
                 </div>
                 <div class="stage-content">
                     <div class="stage-detail">
-                        <strong>Polling:</strong> ArgoCD checks Git every 3 minutes
+                        <strong>Polling:</strong> ArgoCD checks Git repository every 3 minutes
                     </div>
                     <div class="stage-detail">
                         <strong>Detection:</strong> Helm chart values.yaml changed
                     </div>
                     <div class="stage-detail">
-                        <strong>Status:</strong> Application marked as "OutOfSync"
+                        <strong>Comparison:</strong> Git state vs Cluster state
                     </div>
                     <div class="stage-detail">
-                        <strong>Auto-Sync:</strong> Enabled (automatic deployment)
+                        <strong>Status Change:</strong> Application marked as "OutOfSync"
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Auto-Sync:</strong> Enabled (automatic deployment triggered)
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Self-Heal:</strong> Enabled (reverts manual cluster changes)
                     </div>
                     <div class="timing">⏱️ 0-3 minutes (polling interval)</div>
                 </div>
@@ -437,12 +525,16 @@
                     </div>
                     <div class="stage-detail">
                         <strong>Process:</strong><br>
-                        1. Render Helm templates<br>
-                        2. Generate Kubernetes manifests<br>
-                        3. Apply to GKE cluster
+                        1. Render Helm templates with new values<br>
+                        2. Generate Kubernetes YAML manifests<br>
+                        3. Calculate diff between Git and Cluster<br>
+                        4. Apply changes to GKE cluster
                     </div>
                     <div class="stage-detail">
-                        <strong>Features:</strong> Self-Heal, Prune, Auto-Create Namespace
+                        <strong>Features:</strong> Self-Heal, Prune (delete removed resources), Auto-Create Namespace
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Sync Strategy:</strong> Automated (no manual approval needed)
                     </div>
                     <div class="timing">⏱️ 30 seconds</div>
                 </div>
@@ -465,10 +557,16 @@
                         <strong>Image:</strong> ilanm/maven-hello-world:1.0.1-abc123f
                     </div>
                     <div class="stage-detail">
-                        <strong>Nodes:</strong> Both GKE nodes pull the image
+                        <strong>Pull Policy:</strong> IfNotPresent (new tag forces pull)
                     </div>
                     <div class="stage-detail">
-                        <strong>Cache:</strong> Image layers cached on nodes
+                        <strong>Nodes:</strong> Both GKE nodes pull the image (multi-node cluster)
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Cache:</strong> Image layers cached on nodes for future use
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Why unique tags matter:</strong> Kubernetes won't pull updated images with same tag!
                     </div>
                     <div class="timing">⏱️ 30-60 seconds (first pull), instant (cached)</div>
                 </div>
@@ -485,18 +583,28 @@
                 </div>
                 <div class="stage-content">
                     <div class="stage-detail">
-                        <strong>Strategy:</strong> RollingUpdate (zero downtime)
+                        <strong>Strategy:</strong> RollingUpdate (zero downtime deployment)
                     </div>
                     <div class="stage-detail">
                         <strong>Process:</strong><br>
-                        1. Create new pod with v1.0.1-abc123f<br>
-                        2. Wait for readiness probe (15s)<br>
-                        3. Add to service endpoints<br>
-                        4. Terminate old pod<br>
-                        5. Repeat for second replica
+                        1. Create new pod with version 1.0.1-abc123f on Node 2<br>
+                        2. Wait for readiness probe to pass (15s delay + checks)<br>
+                        3. Add new pod to service endpoints (starts receiving traffic)<br>
+                        4. Terminate old pod on Node 1 (graceful shutdown)<br>
+                        5. Create new pod on Node 1<br>
+                        6. Terminate last old pod on Node 2
                     </div>
                     <div class="stage-detail">
-                        <strong>Health Checks:</strong> Liveness + Readiness probes
+                        <strong>Health Checks:</strong> Liveness probe (30s delay) + Readiness probe (15s delay)
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Max Surge:</strong> 1 extra pod allowed during update
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Max Unavailable:</strong> 0 (ensures at least 2 pods always running)
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Result:</strong> Zero downtime! Traffic continuously served ✅
                     </div>
                     <div class="timing">⏱️ 1-2 minutes</div>
                 </div>
@@ -519,10 +627,16 @@
                         <strong>URL:</strong> http://34.58.22.204
                     </div>
                     <div class="stage-detail" style="border-color: #28a745; background: white;">
-                        <strong>Version:</strong> Visible in dashboard and /health endpoint
+                        <strong>Version:</strong> 1.0.1-abc123f visible in dashboard and /health endpoint
                     </div>
                     <div class="stage-detail" style="border-color: #28a745; background: white;">
                         <strong>ArgoCD Status:</strong> Synced ✅ Healthy ✅
+                    </div>
+                    <div class="stage-detail" style="border-color: #28a745; background: white;">
+                        <strong>Pods:</strong> 2 replicas running on 2 different nodes (HA)
+                    </div>
+                    <div class="stage-detail" style="border-color: #28a745; background: white;">
+                        <strong>Load Balancer:</strong> External IP assigned, traffic flowing
                     </div>
                 </div>
             </div>
@@ -536,11 +650,11 @@
                 </div>
                 <div class="legend-item">
                     <div class="legend-icon">🤖</div>
-                    <strong>Manual Steps:</strong> 1 (git push)
+                    <strong>Manual Steps:</strong> 1 (git push only!)
                 </div>
                 <div class="legend-item">
                     <div class="legend-icon">🔄</div>
-                    <strong>Automated Steps:</strong> 12
+                    <strong>Automated Steps:</strong> 12 (fully automated CI/CD)
                 </div>
                 <div class="legend-item">
                     <div class="legend-icon">✅</div>
@@ -548,7 +662,19 @@
                 </div>
                 <div class="legend-item">
                     <div class="legend-icon">📝</div>
-                    <strong>Audit Trail:</strong> Complete history in Git
+                    <strong>Audit Trail:</strong> Complete history in Git (every change tracked)
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">🔒</div>
+                    <strong>Security:</strong> Multi-stage Docker, non-root user, minimal image
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">🏷️</div>
+                    <strong>Versioning:</strong> Unique Git SHA tags for traceability
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">🔄</div>
+                    <strong>Rollback:</strong> Simple git revert to previous version
                 </div>
             </div>
 
@@ -561,24 +687,59 @@
                 </div>
                 <div class="legend-item">
                     <div class="legend-icon">⚡</div>
-                    <strong>CI/CD:</strong> GitHub Actions
+                    <strong>CI/CD:</strong> GitHub Actions (automated workflows)
                 </div>
                 <div class="legend-item">
                     <div class="legend-icon">🐳</div>
-                    <strong>Containerization:</strong> Docker, Docker Hub
+                    <strong>Containerization:</strong> Docker (multi-stage builds), Docker Hub
                 </div>
                 <div class="legend-item">
                     <div class="legend-icon">🔄</div>
-                    <strong>GitOps:</strong> ArgoCD, Helm
+                    <strong>GitOps:</strong> ArgoCD (continuous delivery), Helm (package manager)
                 </div>
                 <div class="legend-item">
                     <div class="legend-icon">☸️</div>
-                    <strong>Infrastructure:</strong> Google Kubernetes Engine (GKE)
+                    <strong>Infrastructure:</strong> Google Kubernetes Engine (GKE Standard, 2 nodes)
                 </div>
                 <div class="legend-item">
                     <div class="legend-icon">📊</div>
                     <strong>Monitoring:</strong> Kubernetes health probes, ArgoCD dashboard
                 </div>
+                <div class="legend-item">
+                    <div class="legend-icon">🏷️</div>
+                    <strong>Versioning:</strong> Semantic versioning + Git SHA (pom.xml + Git)
+                </div>
+            </div>
+
+            <!-- Architecture Highlights -->
+            <div class="legend" style="margin-top: 20px; background: #fff3cd; border: 2px solid #ffc107;">
+                <h3 style="color: #856404;">⚙️ Architecture Highlights</h3>
+                <div class="legend-item" style="color: #856404;">
+                    <div class="legend-icon">🏗️</div>
+                    <strong>Multi-Node Cluster:</strong> 2 nodes for high availability and zero-downtime deployments
+                </div>
+                <div class="legend-item" style="color: #856404;">
+                    <div class="legend-icon">🔐</div>
+                    <strong>Security:</strong> Non-root containers, minimal base images, no build tools in production
+                </div>
+                <div class="legend-item" style="color: #856404;">
+                    <div class="legend-icon">📏</div>
+                    <strong>Image Size:</strong> 328MB (57% reduction through multi-stage builds)
+                </div>
+                <div class="legend-item" style="color: #856404;">
+                    <div class="legend-icon">🔄</div>
+                    <strong>Auto-Scaling:</strong> HPA configured (2-10 replicas based on CPU/memory)
+                </div>
+                <div class="legend-item" style="color: #856404;">
+                    <div class="legend-icon">🔍</div>
+                    <strong>Traceability:</strong> Every deployment traced to exact Git commit
+                </div>
+            </div>
+
+            <!-- Back Links -->
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="/" class="back-link" style="font-size: 18px; padding: 15px 30px;">🏠 Back to Dashboard</a>
+                <a href="/tutorial.html" class="back-link" style="font-size: 18px; padding: 15px 30px;">📚 Read Tutorial</a>
             </div>
         </div>
     </div>

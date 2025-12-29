@@ -29,18 +29,48 @@
             padding: 30px;
             margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-text {
+            flex: 1;
         }
 
         .header h1 {
             color: #2d3748;
-            margin-bottom: 10px;
-            font-size: 36px;
+            margin-bottom: 5px;
+            font-size: 32px;
         }
 
         .header p {
             color: #718096;
-            font-size: 18px;
+            font-size: 16px;
+        }
+
+        .header-links {
+            text-align: center;
+            margin-top: 20px;
         }
 
         .back-link {
@@ -50,8 +80,9 @@
             padding: 10px 20px;
             border-radius: 8px;
             text-decoration: none;
-            margin-top: 15px;
+            margin: 5px;
             font-weight: 600;
+            transition: background 0.3s;
         }
 
         .back-link:hover {
@@ -68,11 +99,15 @@
 
         h2 {
             color: #2d3748;
-            margin-top: 30px;
+            margin-top: 40px;
             margin-bottom: 15px;
             font-size: 28px;
             border-bottom: 3px solid #667eea;
             padding-bottom: 10px;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
         }
 
         h3 {
@@ -111,6 +146,7 @@
             font-family: 'Courier New', monospace;
             font-size: 14px;
             margin: 15px 0;
+            white-space: pre;
         }
 
         .highlight {
@@ -162,9 +198,10 @@
             border-radius: 8px;
             text-decoration: none;
             display: inline-block;
-            margin: 20px 0;
+            margin: 20px 10px 20px 0;
             font-weight: 600;
             font-size: 16px;
+            transition: background 0.3s;
         }
 
         .diagram-link:hover {
@@ -192,14 +229,37 @@
         tr:hover {
             background: #f7fafc;
         }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #5a67d8;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <h1>🚀 Cloud-Native GitOps Platform</h1>
-        <p>Complete Tutorial & Architecture Guide</p>
-        <a href="/" class="back-link">← Back to Dashboard</a>
+        <div class="header-content">
+            <div class="profile-image">
+                <img
+                        src="https://lh3.googleusercontent.com/a/ACg8ocLrnyOd_xegnVjfkJFaOu0WsYNdWopOJv2qeK4BTMvoEPNe7Sn8=s340-p-k-no"
+                        alt="Ilan Melamud"
+                        onerror="this.parentElement.innerHTML='IL'; this.parentElement.style.display='flex'; this.parentElement.style.alignItems='center'; this.parentElement.style.justifyContent='center'; this.parentElement.style.fontSize='24px'; this.parentElement.style.fontWeight='bold'; this.parentElement.style.color='white'; this.parentElement.style.background='linear-gradient(135deg, #667eea 0%, #764ba2 100%)'"
+                />
+            </div>
+            <div class="header-text">
+                <h1>🚀 Cloud-Native GitOps Platform</h1>
+                <p>Complete Tutorial & Architecture Guide by Ilan Melamud</p>
+            </div>
+        </div>
+        <div class="header-links">
+            <a href="/" class="back-link">🏠 Dashboard</a>
+            <a href="/flow-diagram.html" class="back-link">📊 Flow Diagram</a>
+        </div>
     </div>
 
     <div class="content">
@@ -208,14 +268,17 @@
             <li><a href="#overview">Platform Overview</a></li>
             <li><a href="#architecture">System Architecture</a></li>
             <li><a href="#tech-stack">Technology Stack</a></li>
+            <li><a href="#versioning">Version Management Strategy</a></li>
+            <li><a href="#dockerfile">Dockerfile Multi-Stage Build</a></li>
+            <li><a href="#cloud-choice">Why Google Cloud & Multi-Node</a></li>
             <li><a href="#setup">Complete Setup Guide</a></li>
             <li><a href="#deployment">Deployment Pipeline</a></li>
+            <li><a href="#jenkins-comparison">Jenkins vs GitOps</a></li>
             <li><a href="#gitops">GitOps Workflow</a></li>
+            <li><a href="#argocd-gitops">Why Direct Edits Are Ignored</a></li>
             <li><a href="#monitoring">Monitoring & Operations</a></li>
             <li><a href="#troubleshooting">Troubleshooting</a></li>
         </ol>
-
-        <a href="/flow-diagram.html" class="diagram-link">📊 View Interactive Flow Diagram</a>
 
         <h2 id="overview">🎯 Platform Overview</h2>
         <p>
@@ -299,60 +362,524 @@
             <div class="tech-item">📊 Grafana</div>
         </div>
 
+        <h2 id="versioning">🏷️ Version Management Strategy</h2>
+
+        <h3>Why Version Management Matters</h3>
+        <p>
+            Proper version management is critical for production deployments. Without a robust versioning strategy,
+            you face deployment conflicts, inability to rollback, lack of traceability, and compliance issues.
+        </p>
+
+        <div class="highlight">
+            <strong>⚠️ Problems Without Proper Versioning:</strong>
+            <ul>
+                <li>❌ Cannot identify which code is running in production</li>
+                <li>❌ Cannot rollback to previous working versions</li>
+                <li>❌ Multiple deployments overwrite each other</li>
+                <li>❌ No audit trail of what changed and when</li>
+                <li>❌ Kubernetes won't pull "updated" images with same tag</li>
+            </ul>
+        </div>
+
+        <h3>Our Versioning Strategy: Base Version + Git SHA</h3>
+
+        <h4>1. Base Version in pom.xml (Single Source of Truth)</h4>
+        <p>
+            The <code>pom.xml</code> file contains the base semantic version:
+        </p>
+        <div class="code-block">&lt;project&gt;
+            &lt;groupId&gt;com.myapp&lt;/groupId&gt;
+            &lt;artifactId&gt;maven-hello-world&lt;/artifactId&gt;
+            &lt;version&gt;1.0.1&lt;/version&gt;  ← Single source of truth
+            &lt;/project&gt;</div>
+
+        <p><strong>Why pom.xml?</strong></p>
+        <ul>
+            <li>✅ Maven naturally uses it for artifact naming</li>
+            <li>✅ Already part of Java/Spring Boot ecosystem</li>
+            <li>✅ Integrated with build tools and IDEs</li>
+            <li>✅ Can be extracted programmatically</li>
+            <li>✅ Developers already familiar with it</li>
+        </ul>
+
+        <div class="step">
+            <h4>2. Maven Resource Filtering (Inject Version at Build Time)</h4>
+            <p>We use Maven resource filtering to inject the version into the application:</p>
+            <div class="code-block"># pom.xml
+                &lt;build&gt;
+                &lt;resources&gt;
+                &lt;resource&gt;
+                &lt;directory&gt;src/main/resources&lt;/directory&gt;
+                &lt;filtering&gt;true&lt;/filtering&gt;  ← Enable filtering
+                &lt;/resource&gt;
+                &lt;/resources&gt;
+                &lt;/build&gt;
+
+                # application.properties
+                app.version=@project.version@  ← Placeholder
+
+                # After build:
+                app.version=1.0.1  ← Injected by Maven</div>
+
+            <p><strong>Benefits:</strong></p>
+            <ul>
+                <li>✅ No manual version synchronization needed</li>
+                <li>✅ Application automatically knows its version</li>
+                <li>✅ Displayed in /health endpoint and dashboard</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h4>3. Git SHA (Unique Deployment Identifier)</h4>
+            <p>During CI/CD, we append the Git commit SHA to create unique tags:</p>
+            <div class="code-block"># GitHub Actions workflow
+                BASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+                GIT_SHA=$(git rev-parse --short HEAD)
+                VERSION="${BASE_VERSION}-${GIT_SHA}"
+
+                # Result:
+                BASE_VERSION = 1.0.1
+                GIT_SHA = abc123f
+                VERSION = 1.0.1-abc123f  ← Final Docker tag</div>
+
+            <p><strong>Why Add Git SHA?</strong></p>
+            <ul>
+                <li>✅ <strong>Uniqueness:</strong> Every commit gets a unique tag</li>
+                <li>✅ <strong>Traceability:</strong> Can trace back to exact code</li>
+                <li>✅ <strong>Auto-deployment:</strong> ArgoCD detects new versions automatically</li>
+                <li>✅ <strong>No manual intervention:</strong> Versions increment automatically</li>
+                <li>✅ <strong>Rollback capability:</strong> Can identify and revert to any version</li>
+            </ul>
+        </div>
+
+        <h3>Complete Version Flow</h3>
+        <div class="code-block">Developer Updates Code
+            ↓
+            Git Commit: abc123f
+            ↓
+            GitHub Actions Triggered
+            ↓
+            Extract from pom.xml: version = 1.0.1
+            Get Git SHA: sha = abc123f
+            Combine: version = 1.0.1-abc123f
+            ↓
+            Build Docker Image
+            ↓
+            Create 3 Tags:
+            - ilanm/maven-hello-world:1.0.1-abc123f  ← Unique (used by ArgoCD)
+            - ilanm/maven-hello-world:1.0.1          ← Stable base version
+            - ilanm/maven-hello-world:latest         ← Always most recent
+            ↓
+            Push to Docker Hub
+            ↓
+            Update helm-chart/values.yaml:
+            image:
+            tag: "1.0.1-abc123f"
+            ↓
+            Commit to Git
+            ↓
+            ArgoCD Detects Change
+            ↓
+            Kubernetes Pulls: ilanm/maven-hello-world:1.0.1-abc123f
+            ↓
+            New Version Running in Production ✅</div>
+
+        <h3>Version Comparison: Different Strategies</h3>
+
+        <table>
+            <tr>
+                <th>Strategy</th>
+                <th>Example</th>
+                <th>Uniqueness</th>
+                <th>Traceability</th>
+                <th>Auto-Deploy</th>
+            </tr>
+            <tr>
+                <td>Static version</td>
+                <td>1.0.0</td>
+                <td>❌ No</td>
+                <td>❌ No</td>
+                <td>❌ No</td>
+            </tr>
+            <tr>
+                <td>Manual increment</td>
+                <td>1.0.0, 1.0.1, 1.0.2</td>
+                <td>⚠️ If remembered</td>
+                <td>⚠️ Partial</td>
+                <td>❌ Manual</td>
+            </tr>
+            <tr>
+                <td>Timestamp</td>
+                <td>1.0.0-20251229</td>
+                <td>✅ Yes</td>
+                <td>⚠️ Time only</td>
+                <td>✅ Yes</td>
+            </tr>
+            <tr>
+                <td>Build number</td>
+                <td>1.0.0-build-42</td>
+                <td>✅ Yes</td>
+                <td>⚠️ No code link</td>
+                <td>✅ Yes</td>
+            </tr>
+            <tr>
+                <td><strong>Base + Git SHA</strong></td>
+                <td><strong>1.0.1-abc123f</strong></td>
+                <td><strong>✅ Yes</strong></td>
+                <td><strong>✅ Full</strong></td>
+                <td><strong>✅ Yes</strong></td>
+            </tr>
+        </table>
+
+        <h3>Real-World Example: Troubleshooting Production Issue</h3>
+
+        <div class="step">
+            <p><strong>Scenario:</strong> Bug discovered in production</p>
+            <div class="code-block"># Check running version
+                kubectl get pods -o jsonpath='{.items[0].spec.containers[0].image}'
+                # Output: ilanm/maven-hello-world:1.0.1-abc123f
+
+                # Find exact code
+                git checkout abc123f
+                # Now you have EXACT code running in production
+
+                # Check what changed
+                git log abc123f -5 --oneline
+                # See last 5 commits before this version
+
+                # Identify problematic commit
+                git diff def456a..abc123f
+                # See what changed between versions
+
+                # Rollback (revert to previous version)
+                # Option 1: Git revert
+                git revert HEAD
+                git push
+
+                # Option 2: Update Helm chart to previous tag
+                # values.yaml: tag: "1.0.1-def456a"
+                git commit -am "rollback: revert to 1.0.1-def456a"
+                git push
+
+                # ArgoCD auto-deploys previous working version ✅</div>
+        </div>
+
+        <h3>Kubernetes Image Pull Behavior</h3>
+
+        <div class="highlight">
+            <strong>⚠️ Critical Kubernetes Behavior:</strong>
+            <p>Kubernetes has an <code>imagePullPolicy</code> that affects when images are pulled:</p>
+        </div>
+
+        <div class="code-block"># If tag is "latest" or not specified:
+            imagePullPolicy: Always  # Always pulls from registry
+
+            # If tag is specific (e.g., "1.0.1"):
+            imagePullPolicy: IfNotPresent  # Only pulls if not cached
+
+            # Problem with reusing tags:
+            Docker build → tag: "1.0.1" → push to registry
+            Kubernetes sees tag "1.0.1" already cached
+            Kubernetes does NOT pull updated image ❌
+            Old version keeps running!
+
+            # Solution with Git SHA:
+            Docker build → tag: "1.0.1-abc123f" → push
+            Kubernetes sees NEW tag never seen before
+            Kubernetes MUST pull new image ✅
+            New version deploys correctly!</div>
+
+        <h3>Semantic Versioning in Base Version</h3>
+
+        <p>The base version in pom.xml follows semantic versioning:</p>
+        <div class="code-block">MAJOR.MINOR.PATCH
+
+            1.0.0 → 1.0.1  (Patch: bug fix, backwards compatible)
+            1.0.1 → 1.1.0  (Minor: new feature, backwards compatible)
+            1.1.0 → 2.0.0  (Major: breaking changes)
+
+            Examples:
+            - 1.0.0-abc123f  (First release, commit abc123f)
+            - 1.0.1-def456a  (Bug fix, commit def456a)
+            - 1.1.0-ghi789b  (New feature, commit ghi789b)
+            - 2.0.0-jkl012c  (Breaking change, commit jkl012c)</div>
+
+        <div class="success">
+            <strong>🎯 Key Takeaway:</strong> Base version in pom.xml provides human-readable semantic meaning,
+            while Git SHA provides machine-readable uniqueness and traceability. Together, they create the
+            perfect versioning strategy for cloud-native applications.
+        </div>
+
+        <h2 id="dockerfile">🐳 Dockerfile Multi-Stage Build Strategy</h2>
+
+        <h3>Why Multi-Stage Builds?</h3>
+        <p>
+            Our Dockerfile uses a multi-stage build strategy to create secure, minimal, production-ready container images.
+            This approach dramatically reduces image size, attack surface, and security vulnerabilities.
+        </p>
+
+        <h3>Our Dockerfile Structure</h3>
+        <div class="code-block"># Stage 1: Build Stage (Builder)
+            FROM maven:3.9-eclipse-temurin-17 AS builder
+            WORKDIR /app
+            COPY pom.xml .
+            COPY src ./src
+            RUN mvn clean package -Dmaven.test.skip=true
+
+            # Stage 2: Runtime Stage (Final Image)
+            FROM eclipse-temurin:17-jre
+            WORKDIR /app
+
+            # Create non-root user
+            RUN groupadd -r appuser && useradd -r -g appuser appuser
+            RUN chown -R appuser:appuser /app
+
+            # Copy only the JAR from builder stage
+            COPY --from=builder /app/target/*.jar app.jar
+
+            # Switch to non-root user
+            USER appuser
+
+            EXPOSE 8080
+            HEALTHCHECK --interval=30s --timeout=3s \
+            CMD curl -f http://localhost:8080/health || exit 1
+
+            ENTRYPOINT ["java", "-jar", "app.jar"]</div>
+
+        <h3>Security Benefits</h3>
+        <div class="step">
+            <h4>1. Non-Root User Execution</h4>
+            <p><strong>Problem:</strong> Running as root is a major security risk. If container is compromised, attacker has root access.</p>
+            <p><strong>Solution:</strong> We create and use a dedicated non-root user <code>appuser</code> (UID 1001).</p>
+            <div class="code-block"># Create user and group
+                RUN groupadd -r appuser && useradd -r -g appuser appuser
+
+                # Change ownership
+                RUN chown -R appuser:appuser /app
+
+                # Switch user
+                USER appuser</div>
+            <p><strong>Result:</strong> ✅ Application runs with minimal privileges</p>
+        </div>
+
+        <div class="step">
+            <h4>2. Minimal Base Image</h4>
+            <p><strong>Problem:</strong> Full JDK images include compilers, debuggers, and unnecessary tools (755MB+).</p>
+            <p><strong>Solution:</strong> Use JRE-only runtime image that contains only what's needed to run Java applications.</p>
+            <div class="code-block"># Builder stage: maven:3.9-eclipse-temurin-17 (~755MB)
+                # Runtime stage: eclipse-temurin:17-jre (~328MB)</div>
+            <p><strong>Result:</strong> ✅ 57% smaller image, fewer attack vectors</p>
+        </div>
+
+        <div class="step">
+            <h4>3. No Build Tools in Production</h4>
+            <p><strong>Problem:</strong> Maven, compilers, and build tools in production images create security risks.</p>
+            <p><strong>Solution:</strong> Build tools only exist in builder stage, discarded in final image.</p>
+            <p><strong>Result:</strong> ✅ No compilers or build tools that could be exploited</p>
+        </div>
+
+        <div class="step">
+            <h4>4. Reduced Attack Surface</h4>
+            <p><strong>Problem:</strong> Unnecessary packages increase CVE exposure.</p>
+            <p><strong>Solution:</strong> Only include JRE and application JAR in final image.</p>
+            <div class="code-block"># What's NOT in our production image:
+                ❌ Maven
+                ❌ Git
+                ❌ Build tools
+                ❌ Development libraries
+                ❌ Shell utilities
+                ❌ Package managers
+
+                # What IS in our production image:
+                ✅ JRE 17
+                ✅ Application JAR
+                ✅ Minimal OS base</div>
+            <p><strong>Result:</strong> ✅ Minimal CVE exposure</p>
+        </div>
+
+        <h3>Image Size Comparison</h3>
+        <table>
+            <tr>
+                <th>Approach</th>
+                <th>Image Size</th>
+                <th>Security</th>
+                <th>Production Ready</th>
+            </tr>
+            <tr>
+                <td>Single-stage with JDK</td>
+                <td>755 MB</td>
+                <td>❌ High risk</td>
+                <td>❌ No</td>
+            </tr>
+            <tr>
+                <td>Single-stage with JRE</td>
+                <td>450 MB</td>
+                <td>⚠️ Medium risk</td>
+                <td>⚠️ Partial</td>
+            </tr>
+            <tr>
+                <td><strong>Multi-stage with JRE + non-root</strong></td>
+                <td><strong>328 MB</strong></td>
+                <td><strong>✅ Low risk</strong></td>
+                <td><strong>✅ Yes</strong></td>
+            </tr>
+        </table>
+
+        <div class="success">
+            <strong>🔒 Security Summary:</strong> Our multi-stage build creates a production-hardened image
+            that's 57% smaller, runs as non-root, contains no build tools, and minimizes attack surface.
+        </div>
+
+        <h2 id="cloud-choice">☁️ Why Google Cloud Platform & Multi-Node Architecture</h2>
+
+        <h3>Why We Chose Google Cloud</h3>
+
+        <div class="step">
+            <h4>1. GKE Autopilot & Standard Options</h4>
+            <p>
+                GCP offers both Autopilot (fully managed) and Standard (configurable) GKE clusters.
+                We chose <strong>Standard</strong> for fine-grained control over node configuration and costs.
+            </p>
+            <table style="margin-top: 15px;">
+                <tr>
+                    <th>Feature</th>
+                    <th>Autopilot</th>
+                    <th>Standard (Our Choice)</th>
+                </tr>
+                <tr>
+                    <td>Node Management</td>
+                    <td>Fully managed</td>
+                    <td>User controlled</td>
+                </tr>
+                <tr>
+                    <td>Pod Resources</td>
+                    <td>Auto-provisioned</td>
+                    <td>Fixed node pools</td>
+                </tr>
+                <tr>
+                    <td>Cost</td>
+                    <td>Pay per pod</td>
+                    <td>Pay per node (predictable)</td>
+                </tr>
+                <tr>
+                    <td>Control</td>
+                    <td>Limited</td>
+                    <td>Full control</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="step">
+            <h4>2. Free Trial Credits</h4>
+            <p>
+                ✅ $300 (₪983) in free credits for 90 days<br>
+                ✅ No automatic charges after trial<br>
+                ✅ Perfect for demos and POCs
+            </p>
+        </div>
+
+        <div class="step">
+            <h4>3. Kubernetes-Native</h4>
+            <p>
+                GKE is built by Google, the creators of Kubernetes. It provides:
+            </p>
+            <ul>
+                <li>Latest Kubernetes versions immediately</li>
+                <li>Best-in-class integration</li>
+                <li>Excellent documentation</li>
+                <li>Native GCP service integration</li>
+            </ul>
+        </div>
+
+        <h3>Why Multi-Node Architecture (2 Nodes)?</h3>
+
+        <div class="step">
+            <h4>1. High Availability</h4>
+            <p><strong>Single Node:</strong> If node fails → entire application down ❌</p>
+            <p><strong>Multi-Node:</strong> If one node fails → app continues running on other node ✅</p>
+            <div class="code-block"># Our setup:
+                Node 1: gke-maven-hello-world-cl-default-pool-...-0j8r
+                Node 2: gke-maven-hello-world-cl-default-pool-...-24jx
+
+                # Pod distribution:
+                Pod 1 → Node 1
+                Pod 2 → Node 2
+
+                # If Node 1 fails:
+                Pod 1 → Rescheduled to Node 2
+                Pod 2 → Still running
+                Result: Zero downtime! ✅</div>
+        </div>
+
+        <div class="step">
+            <h4>2. Load Distribution</h4>
+            <p>
+                With 2 nodes, traffic is naturally distributed across multiple physical machines,
+                preventing any single node from becoming a bottleneck.
+            </p>
+        </div>
+
+        <div class="step">
+            <h4>3. Rolling Updates Without Downtime</h4>
+            <p>
+                During deployments, Kubernetes can:
+            </p>
+            <ol>
+                <li>Start new pod on Node 2</li>
+                <li>Wait for it to be ready</li>
+                <li>Terminate old pod on Node 1</li>
+                <li>Start new pod on Node 1</li>
+                <li>Terminate old pod on Node 2</li>
+            </ol>
+            <p><strong>At all times:</strong> At least one pod is serving traffic ✅</p>
+        </div>
+
+        <div class="highlight">
+            <strong>💡 Key Takeaway:</strong> Multi-node architecture is not just about redundancy—it's about
+            demonstrating production-ready thinking. In interviews, single-node setups signal "toy project,"
+            while multi-node shows understanding of HA, fault tolerance, and enterprise requirements.
+        </div>
+
         <h2 id="setup">⚙️ Complete Setup Guide</h2>
 
         <h3>Prerequisites</h3>
-        <div class="code-block">
-            # Required software
+        <div class="code-block"># Required software
             - Java 17 JDK
             - Maven 3.9+
             - Docker 20+
             - kubectl
             - gcloud CLI
-            - Git
-        </div>
+            - Git</div>
 
         <h3>Step 1: Clone Repository</h3>
-        <div class="code-block">
-            git clone https://github.com/meyrow/maven-hello-world.git
-            cd maven-hello-world
-        </div>
+        <div class="code-block">git clone https://github.com/meyrow/maven-hello-world.git
+            cd maven-hello-world</div>
 
         <h3>Step 2: Build Application</h3>
-        <div class="code-block">
-            cd myapp
-            mvn clean package -Dmaven.test.skip=true
-        </div>
+        <div class="code-block">cd myapp
+            mvn clean package -Dmaven.test.skip=true</div>
 
         <h3>Step 3: Build Docker Image</h3>
-        <div class="code-block">
-            docker build -t ilanm/maven-hello-world:1.0.0 .
-            docker push ilanm/maven-hello-world:1.0.0
-        </div>
+        <div class="code-block">docker build -t ilanm/maven-hello-world:1.0.0 .
+            docker push ilanm/maven-hello-world:1.0.0</div>
 
         <h3>Step 4: Create GKE Cluster</h3>
-        <div class="code-block">
-            gcloud container clusters create maven-hello-world-cluster \
+        <div class="code-block">gcloud container clusters create maven-hello-world-cluster \
             --zone=us-central1-a \
             --machine-type=e2-medium \
-            --num-nodes=2
-        </div>
+            --num-nodes=2</div>
 
         <h3>Step 5: Install ArgoCD</h3>
-        <div class="code-block">
-            kubectl create namespace argocd
+        <div class="code-block">kubectl create namespace argocd
             kubectl apply -n argocd -f \
             https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
             # Expose ArgoCD UI
             kubectl patch svc argocd-server -n argocd \
-            -p '{"spec": {"type": "LoadBalancer"}}'
-        </div>
+            -p '{"spec": {"type": "LoadBalancer"}}'</div>
 
         <h3>Step 6: Deploy Application</h3>
-        <div class="code-block">
-            kubectl apply -f argocd/application.yaml
-        </div>
+        <div class="code-block">kubectl apply -f argocd/application.yaml</div>
 
         <div class="success">
             ✅ <strong>Setup Complete!</strong> Your application is now deployed and managed by GitOps.
@@ -376,18 +903,89 @@
             <li><strong>Rolling update</strong> deploys new version with zero downtime</li>
         </ol>
 
-        <h3>Version Strategy</h3>
-        <p>
-            We use semantic versioning combined with Git commit SHAs for unique, traceable deployments:
-        </p>
-        <div class="code-block">
-            Format: {base-version}-{git-sha}
-            Example: 1.0.1-abc123f
+        <h2 id="jenkins-comparison">🔄 Jenkins vs GitOps: CI/CD Comparison</h2>
 
-            Tags created per build:
-            - 1.0.1-abc123f  (unique deployment tag)
-            - 1.0.1          (stable base version)
-            - latest         (always points to most recent)
+        <h3>Terminology Mapping</h3>
+        <p>
+            Coming from Jenkins? Here's how concepts translate to GitHub Actions and GitOps:
+        </p>
+
+        <table>
+            <tr>
+                <th>Jenkins (Groovy)</th>
+                <th>GitHub Actions (YAML)</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td><code>pipeline { }</code></td>
+                <td><code>workflow</code></td>
+                <td>Top-level CI/CD definition</td>
+            </tr>
+            <tr>
+                <td><code>stage('Build')</code></td>
+                <td><code>job: build-and-push</code></td>
+                <td>Logical grouping of steps</td>
+            </tr>
+            <tr>
+                <td><code>steps { }</code></td>
+                <td><code>steps:</code></td>
+                <td>Individual commands/actions</td>
+            </tr>
+            <tr>
+                <td><code>agent { }</code></td>
+                <td><code>runs-on: ubuntu-latest</code></td>
+                <td>Execution environment</td>
+            </tr>
+        </table>
+
+        <h3>Key Differences</h3>
+
+        <div class="step">
+            <h4>1. Execution Model</h4>
+            <p><strong>Jenkins:</strong></p>
+            <ul>
+                <li>Stages run <strong>sequentially</strong> by default</li>
+                <li>Use <code>parallel { }</code> for concurrent execution</li>
+                <li>Shared workspace between stages</li>
+            </ul>
+
+            <p><strong>GitHub Actions:</strong></p>
+            <ul>
+                <li>Jobs run <strong>in parallel</strong> by default</li>
+                <li>Use <code>needs:</code> for sequential execution</li>
+                <li>Each job gets fresh VM (no shared workspace)</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h4>2. Deployment Approach</h4>
+            <p><strong>Jenkins Traditional (Push Model):</strong></p>
+            <div class="code-block">stage('Deploy') {
+                steps {
+                // Jenkins pushes directly to cluster
+                sh 'kubectl apply -f k8s/'
+                sh 'kubectl rollout status deployment/myapp'
+                }
+                }</div>
+            <p>❌ Problems: Jenkins needs cluster credentials, no audit trail, difficult rollbacks</p>
+
+            <p><strong>GitOps (Pull Model):</strong></p>
+            <div class="code-block">- name: Update Helm Chart
+                run: |
+                # CI only updates Git
+                sed -i "s|tag:.*|tag: \"$VERSION\"|g" values.yaml
+                git commit -am "Update to $VERSION"
+                git push
+
+                # ArgoCD (separate system) pulls from Git
+                # and applies to cluster automatically</div>
+            <p>✅ Benefits: Git is single source of truth, complete audit trail, easy rollbacks, automatic drift detection</p>
+        </div>
+
+        <div class="success">
+            <strong>🎯 Key Insight:</strong> GitOps separates CI (build/test) from CD (deploy).
+            GitHub Actions handles CI, ArgoCD handles CD. This separation improves security,
+            auditability, and enables true declarative infrastructure.
         </div>
 
         <h2 id="gitops">🔄 GitOps Workflow</h2>
@@ -413,33 +1011,93 @@
             <p>ArgoCD ensures cluster state matches Git state, auto-healing any drift.</p>
         </div>
 
-        <h3>Making Changes</h3>
-        <div class="code-block">
-            # 1. Update code
-            vim myapp/src/main/java/com/myapp/App.java
+        <h2 id="argocd-gitops">🔒 Why Direct Edits Are Ignored by ArgoCD</h2>
 
-            # 2. Commit and push
-            git add .
-            git commit -m "feat: add new feature"
-            git push origin master
+        <h3>The GitOps Principle: Git as Single Source of Truth</h3>
+        <p>
+            In GitOps, <strong>Git is the only source of truth</strong> for your cluster state.
+            ArgoCD continuously monitors Git and ensures the cluster matches what's declared in Git.
+        </p>
 
-            # 3. Watch automated deployment
-            # - GitHub Actions builds and pushes
-            # - ArgoCD detects and syncs
-            # - New version deployed automatically
+        <h3>What Happens When You Edit the Cluster Directly?</h3>
+
+        <div class="highlight">
+            <strong>Real Example from Our Setup:</strong><br>
+            We tried to expose the application by directly patching the service in Kubernetes:
         </div>
 
-        <h3>Rollback Process</h3>
-        <div class="code-block">
-            # Option 1: Git revert (recommended)
-            git revert HEAD
-            git push origin master
+        <div class="code-block"># We ran this command directly on the cluster:
+            kubectl patch svc maven-hello-world -n default \
+            -p '{"spec": {"type": "LoadBalancer"}}'
 
-            # Option 2: Helm rollback
-            helm rollback maven-hello-world -n default
+            # Output: service/maven-hello-world patched ✅
 
-            # Option 3: ArgoCD UI
-            # Navigate to app → History → Click previous version
+            # We checked:
+            kubectl get svc maven-hello-world -n default
+
+            # Result:
+            NAME                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)
+            maven-hello-world   ClusterIP   34.118.228.233   &lt;none&gt;        80/TCP
+            ↑↑↑↑↑↑↑
+            Still ClusterIP! Why? 🤔</div>
+
+        <h3>What Happened Behind the Scenes</h3>
+
+        <div class="step">
+            <h4>1. We Made Direct Change</h4>
+            <p>We used <code>kubectl patch</code> to change service type to LoadBalancer.</p>
+            <p><strong>Cluster state:</strong> ✅ LoadBalancer (for a few seconds)</p>
+        </div>
+
+        <div class="step">
+            <h4>2. ArgoCD Detected Drift</h4>
+            <p>ArgoCD continuously compares:</p>
+            <div class="code-block">Git says:          type: ClusterIP
+                Cluster has:       type: LoadBalancer
+
+                Status: OutOfSync (drift detected!) 🚨</div>
+        </div>
+
+        <div class="step">
+            <h4>3. ArgoCD Auto-Healed</h4>
+            <p>Because we enabled <strong>Self Heal</strong>, ArgoCD automatically reverted our change:</p>
+            <div class="code-block">ArgoCD: "Cluster doesn't match Git. Fixing..."
+                kubectl apply -f &lt;manifests-from-git&gt;
+
+                Result: Service changed back to ClusterIP ✅</div>
+        </div>
+
+        <h3>The Correct Way: Update Git First</h3>
+
+        <div class="step">
+            <h4>Step 1: Update helm-chart/values.yaml</h4>
+            <div class="code-block"># Edit values.yaml in Git
+                service:
+                type: LoadBalancer  # ← Changed from ClusterIP
+                port: 80
+                targetPort: 8080</div>
+        </div>
+
+        <div class="step">
+            <h4>Step 2: Commit and Push</h4>
+            <div class="code-block">git add helm-chart/values.yaml
+                git commit -m "feat: expose service via LoadBalancer"
+                git push origin master</div>
+        </div>
+
+        <div class="step">
+            <h4>Step 3: ArgoCD Auto-Syncs</h4>
+            <div class="code-block">ArgoCD: "Git changed! Syncing..."
+                kubectl apply -f &lt;updated-manifests&gt;
+
+                Result: Service is now LoadBalancer ✅
+                External IP assigned ✅
+                Change persists! ✅</div>
+        </div>
+
+        <div class="success">
+            <strong>💡 Remember:</strong> In GitOps, cluster is read-only. All changes go through Git.
+            This prevents configuration drift, enables rollbacks, and creates complete audit trails.
         </div>
 
         <h2 id="monitoring">📊 Monitoring & Operations</h2>
@@ -468,62 +1126,25 @@
             </tr>
         </table>
 
-        <h3>Kubernetes Health Probes</h3>
-        <div class="code-block">
-            livenessProbe:
-            httpGet:
-            path: /health
-            port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 10
-
-            readinessProbe:
-            httpGet:
-            path: /health
-            port: 8080
-            initialDelaySeconds: 15
-            periodSeconds: 5
-        </div>
-
-        <h3>Scaling Configuration</h3>
-        <div class="code-block">
-            # Horizontal Pod Autoscaler (HPA)
-            apiVersion: autoscaling/v2
-            kind: HorizontalPodAutoscaler
-            spec:
-            minReplicas: 2
-            maxReplicas: 10
-            metrics:
-            - type: Resource
-            resource:
-            name: cpu
-            target:
-            type: Utilization
-            averageUtilization: 80
-        </div>
-
         <h2 id="troubleshooting">🔧 Troubleshooting</h2>
 
         <h3>Common Issues</h3>
 
         <div class="step">
             <h4>Issue: Pods not starting</h4>
-            <div class="code-block">
-                # Check pod status
+            <div class="code-block"># Check pod status
                 kubectl get pods -n default
 
                 # Describe pod
                 kubectl describe pod {pod-name} -n default
 
                 # Check logs
-                kubectl logs {pod-name} -n default
-            </div>
+                kubectl logs {pod-name} -n default</div>
         </div>
 
         <div class="step">
             <h4>Issue: ArgoCD not syncing</h4>
-            <div class="code-block">
-                # Check ArgoCD application status
+            <div class="code-block"># Check ArgoCD application status
                 kubectl get application -n argocd
 
                 # Describe application
@@ -531,42 +1152,7 @@
 
                 # Manual sync
                 kubectl patch application maven-hello-world -n argocd \
-                --type merge -p '{"operation":{"sync":{}}}'
-            </div>
-        </div>
-
-        <div class="step">
-            <h4>Issue: Service not accessible</h4>
-            <div class="code-block">
-                # Check service
-                kubectl get svc maven-hello-world -n default
-
-                # Check endpoints
-                kubectl get endpoints maven-hello-world -n default
-
-                # Test from within cluster
-                kubectl run -it --rm debug --image=curlimages/curl --restart=Never \
-                -- curl http://maven-hello-world/health
-            </div>
-        </div>
-
-        <h3>Useful Commands</h3>
-        <div class="code-block">
-            # View all resources
-            kubectl get all -n default
-
-            # Check cluster nodes
-            kubectl get nodes
-
-            # View events
-            kubectl get events -n default --sort-by='.lastTimestamp'
-
-            # Port forward for local testing
-            kubectl port-forward svc/maven-hello-world 8080:80 -n default
-
-            # View ArgoCD admin password
-            kubectl -n argocd get secret argocd-initial-admin-secret \
-            -o jsonpath="{.data.password}" | base64 -d
+                --type merge -p '{"operation":{"sync":{}}}'</div>
         </div>
 
         <h2>📚 Additional Resources</h2>
@@ -575,7 +1161,6 @@
             <li><a href="https://hub.docker.com/r/ilanm/maven-hello-world" target="_blank">Docker Hub Images</a></li>
             <li><a href="https://argo-cd.readthedocs.io/" target="_blank">ArgoCD Documentation</a></li>
             <li><a href="https://kubernetes.io/docs/" target="_blank">Kubernetes Documentation</a></li>
-            <li><a href="https://helm.sh/docs/" target="_blank">Helm Documentation</a></li>
         </ul>
 
         <div class="success" style="margin-top: 30px; text-align: center;">
