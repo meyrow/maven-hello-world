@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitOps Flow Diagram - Interactive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .back-link {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #5a67d8;
+        }
+
+        .diagram {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow-x: auto;
+        }
+
+        .flow-container {
+            min-width: 1200px;
+            padding: 20px;
+        }
+
+        .flow-stage {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .flow-stage:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transform: translateX(5px);
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stage-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .stage-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .stage-icon {
+            font-size: 30px;
+            margin-left: auto;
+        }
+
+        .stage-content {
+            margin-left: 55px;
+            color: #4a5568;
+        }
+
+        .stage-detail {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 8px 0;
+            border-left: 3px solid #667eea;
+        }
+
+        .arrow {
+            text-align: center;
+            font-size: 30px;
+            color: #667eea;
+            margin: 10px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .legend {
+            background: #edf2f7;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .legend h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            color: #4a5568;
+        }
+
+        .legend-icon {
+            font-size: 20px;
+            width: 30px;
+        }
+
+        .timing {
+            background: #fef5e7;
+            color: #f39c12;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .highlight-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🔄 Complete GitOps Deployment Flow</h1>
+        <p style="color: #718096; margin-top: 10px;">From Code Commit to Production - Fully Automated</p>
+        <a href="/tutorial.html" class="back-link">← Back to Tutorial</a>
+        <a href="/" class="back-link">🏠 Dashboard</a>
+    </div>
+
+    <div class="diagram">
+        <div class="flow-container">
+
+            <!-- Stage 1 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">1</div>
+                    <div class="stage-title">Developer Commits Code</div>
+                    <div class="stage-icon">👨‍💻</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>Action:</strong> Developer makes changes to application code
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Commands:</strong><br>
+                        <code>git add .</code><br>
+                        <code>git commit -m "feat: new feature"</code><br>
+                        <code>git push origin master</code>
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Location:</strong> Local workstation → GitHub repository
+                    </div>
+                    <div class="timing">⏱️ Instant</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 2 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">2</div>
+                    <div class="stage-title">GitHub Actions Triggered</div>
+                    <div class="stage-icon">⚡</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>Trigger:</strong> Push to master/main branch
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Workflow:</strong> .github/workflows/ci-cd.yml
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Jobs:</strong> build-and-push, test-docker-image
+                    </div>
+                    <div class="timing">⏱️ Starts in 5 seconds</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 3 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">3</div>
+                    <div class="stage-title">Maven Build</div>
+                    <div class="stage-icon">🔨</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>Action:</strong> Compile Java code and create JAR
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Command:</strong> <code>mvn clean package -Dmaven.test.skip=true</code>
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Version Extraction:</strong> Read from pom.xml + Git SHA
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Output:</strong> maven-hello-world-1.0.1.jar
+                    </div>
+                    <div class="timing">⏱️ 1-2 minutes</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 4 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">4</div>
+                    <div class="stage-title">Docker Image Build</div>
+                    <div class="stage-icon">🐳</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>Strategy:</strong> Multi-stage Dockerfile
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Stage 1:</strong> Maven build (builder)
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Stage 2:</strong> Runtime with JRE only (328MB)
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Optimization:</strong> Layer caching, .dockerignore
+                    </div>
+                    <div class="timing">⏱️ 2-3 minutes</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 5 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">5</div>
+                    <div class="stage-title">Version Tagging</div>
+                    <div class="stage-icon">🏷️</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>Format:</strong> {base-version}-{git-sha}
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Example:</strong> 1.0.1-abc123f
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Tags Created:</strong><br>
+                        - 1.0.1-abc123f (unique)<br>
+                        - 1.0.1 (base version)<br>
+                        - latest (most recent)
+                    </div>
+                    <div class="timing">⏱️ Instant</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 6 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">6</div>
+                    <div class="stage-title">Push to Docker Hub</div>
+                    <div class="stage-icon">🐋</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>Registry:</strong> Docker Hub
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Repository:</strong> ilanm/maven-hello-world
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Authentication:</strong> Docker Hub credentials (secrets)
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Result:</strong> Container image available publicly
+                    </div>
+                    <div class="timing">⏱️ 1-2 minutes</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 7 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">7</div>
+                    <div class="stage-title">Update Helm Chart</div>
+                    <div class="stage-icon">⎈</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>File:</strong> helm-chart/values.yaml
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Update:</strong> image.tag: "1.0.1-abc123f"
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Command:</strong> <code>sed -i "s|tag:.*|tag: \"$VERSION\"|g" values.yaml</code>
+                    </div>
+                    <div class="timing">⏱️ Instant</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 8 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">8</div>
+                    <div class="stage-title">Commit to Git</div>
+                    <div class="stage-icon">📝</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>Action:</strong> GitHub Actions commits updated Helm chart
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Commit Message:</strong> "chore: update image tag to 1.0.1-abc123f"
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Result:</strong> Git is now the source of truth
+                    </div>
+                    <div class="timing">⏱️ Instant</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 9 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">9</div>
+                    <div class="stage-title">ArgoCD Detects Change</div>
+                    <div class="stage-icon">👁️</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>Polling:</strong> ArgoCD checks Git every 3 minutes
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Detection:</strong> Helm chart values.yaml changed
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Status:</strong> Application marked as "OutOfSync"
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Auto-Sync:</strong> Enabled (automatic deployment)
+                    </div>
+                    <div class="timing">⏱️ 0-3 minutes (polling interval)</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 10 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">10</div>
+                    <div class="stage-title">ArgoCD Syncs</div>
+                    <div class="stage-icon">🔄</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>Action:</strong> Apply Kubernetes manifests to cluster
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Process:</strong><br>
+                        1. Render Helm templates<br>
+                        2. Generate Kubernetes manifests<br>
+                        3. Apply to GKE cluster
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Features:</strong> Self-Heal, Prune, Auto-Create Namespace
+                    </div>
+                    <div class="timing">⏱️ 30 seconds</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 11 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">11</div>
+                    <div class="stage-title">Kubernetes Pulls Image</div>
+                    <div class="stage-icon">☸️</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>Source:</strong> Docker Hub registry
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Image:</strong> ilanm/maven-hello-world:1.0.1-abc123f
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Nodes:</strong> Both GKE nodes pull the image
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Cache:</strong> Image layers cached on nodes
+                    </div>
+                    <div class="timing">⏱️ 30-60 seconds (first pull), instant (cached)</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 12 -->
+            <div class="flow-stage">
+                <div class="stage-header">
+                    <div class="stage-number">12</div>
+                    <div class="stage-title">Rolling Update</div>
+                    <div class="stage-icon">🔄</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail">
+                        <strong>Strategy:</strong> RollingUpdate (zero downtime)
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Process:</strong><br>
+                        1. Create new pod with v1.0.1-abc123f<br>
+                        2. Wait for readiness probe (15s)<br>
+                        3. Add to service endpoints<br>
+                        4. Terminate old pod<br>
+                        5. Repeat for second replica
+                    </div>
+                    <div class="stage-detail">
+                        <strong>Health Checks:</strong> Liveness + Readiness probes
+                    </div>
+                    <div class="timing">⏱️ 1-2 minutes</div>
+                </div>
+            </div>
+
+            <div class="arrow">⬇️</div>
+
+            <!-- Stage 13 -->
+            <div class="flow-stage" style="border-color: #28a745; background: #d4edda;">
+                <div class="stage-header">
+                    <div class="stage-number" style="background: #28a745;">✓</div>
+                    <div class="stage-title" style="color: #155724;">Production Deployed!</div>
+                    <div class="stage-icon">🎉</div>
+                </div>
+                <div class="stage-content">
+                    <div class="stage-detail" style="border-color: #28a745; background: white;">
+                        <strong>Status:</strong> Application running with new version
+                    </div>
+                    <div class="stage-detail" style="border-color: #28a745; background: white;">
+                        <strong>URL:</strong> http://34.58.22.204
+                    </div>
+                    <div class="stage-detail" style="border-color: #28a745; background: white;">
+                        <strong>Version:</strong> Visible in dashboard and /health endpoint
+                    </div>
+                    <div class="stage-detail" style="border-color: #28a745; background: white;">
+                        <strong>ArgoCD Status:</strong> Synced ✅ Healthy ✅
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Box -->
+            <div class="highlight-box">
+                <h4>📊 Complete Pipeline Summary</h4>
+                <div class="legend-item">
+                    <div class="legend-icon">⏱️</div>
+                    <strong>Total Time:</strong> ~8-12 minutes from commit to production
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">🤖</div>
+                    <strong>Manual Steps:</strong> 1 (git push)
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">🔄</div>
+                    <strong>Automated Steps:</strong> 12
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">✅</div>
+                    <strong>Zero Downtime:</strong> Rolling updates with health checks
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">📝</div>
+                    <strong>Audit Trail:</strong> Complete history in Git
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="legend">
+                <h3>🔑 Key Technologies</h3>
+                <div class="legend-item">
+                    <div class="legend-icon">👨‍💻</div>
+                    <strong>Development:</strong> Java 17, Spring Boot, React, Maven
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">⚡</div>
+                    <strong>CI/CD:</strong> GitHub Actions
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">🐳</div>
+                    <strong>Containerization:</strong> Docker, Docker Hub
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">🔄</div>
+                    <strong>GitOps:</strong> ArgoCD, Helm
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">☸️</div>
+                    <strong>Infrastructure:</strong> Google Kubernetes Engine (GKE)
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon">📊</div>
+                    <strong>Monitoring:</strong> Kubernetes health probes, ArgoCD dashboard
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

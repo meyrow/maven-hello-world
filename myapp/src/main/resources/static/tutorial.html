@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitOps Platform Tutorial - Complete Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 36px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 18px;
+        }
+
+        .back-link {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            background: #5a67d8;
+        }
+
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #2d3748;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 28px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #4a5568;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        h4 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        p {
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .step {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+
+        .highlight {
+            background: #fef5e7;
+            padding: 15px;
+            border-left: 4px solid #f39c12;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .success {
+            background: #d4edda;
+            padding: 15px;
+            border-left: 4px solid #28a745;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tech-item {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .diagram-link {
+            background: #667eea;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .diagram-link:hover {
+            background: #5a67d8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🚀 Cloud-Native GitOps Platform</h1>
+        <p>Complete Tutorial & Architecture Guide</p>
+        <a href="/" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <div class="content">
+        <h2>📋 Table of Contents</h2>
+        <ol>
+            <li><a href="#overview">Platform Overview</a></li>
+            <li><a href="#architecture">System Architecture</a></li>
+            <li><a href="#tech-stack">Technology Stack</a></li>
+            <li><a href="#setup">Complete Setup Guide</a></li>
+            <li><a href="#deployment">Deployment Pipeline</a></li>
+            <li><a href="#gitops">GitOps Workflow</a></li>
+            <li><a href="#monitoring">Monitoring & Operations</a></li>
+            <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+
+        <a href="/flow-diagram.html" class="diagram-link">📊 View Interactive Flow Diagram</a>
+
+        <h2 id="overview">🎯 Platform Overview</h2>
+        <p>
+            This is a production-ready, cloud-native application demonstrating modern DevOps practices,
+            GitOps principles, and container orchestration. The platform showcases automated CI/CD pipelines,
+            declarative deployments, and self-healing infrastructure.
+        </p>
+
+        <div class="highlight">
+            <strong>🎯 Key Objectives:</strong>
+            <ul>
+                <li>Zero-downtime deployments with rolling updates</li>
+                <li>Automated CI/CD pipeline with version control</li>
+                <li>GitOps-based declarative deployments</li>
+                <li>Auto-scaling based on resource utilization</li>
+                <li>Self-healing infrastructure with health monitoring</li>
+            </ul>
+        </div>
+
+        <h2 id="architecture">🏗️ System Architecture</h2>
+
+        <h3>Architecture Components</h3>
+        <div class="step">
+            <h4>1. Development Layer</h4>
+            <ul>
+                <li><strong>Spring Boot Application:</strong> RESTful microservice with health endpoints</li>
+                <li><strong>React Dashboard:</strong> Real-time monitoring interface</li>
+                <li><strong>Maven Build:</strong> Dependency management and packaging</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h4>2. CI/CD Layer</h4>
+            <ul>
+                <li><strong>GitHub Actions:</strong> Automated build, test, and deployment</li>
+                <li><strong>Docker Build:</strong> Multi-stage containerization</li>
+                <li><strong>Version Tagging:</strong> Git SHA-based unique tags</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h4>3. Artifact Storage</h4>
+            <ul>
+                <li><strong>Docker Hub:</strong> Container image registry</li>
+                <li><strong>GitHub:</strong> Helm chart repository</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h4>4. GitOps Layer</h4>
+            <ul>
+                <li><strong>ArgoCD:</strong> Continuous delivery and sync engine</li>
+                <li><strong>Helm Charts:</strong> Kubernetes manifest templates</li>
+                <li><strong>Git Repository:</strong> Single source of truth</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h4>5. Infrastructure Layer</h4>
+            <ul>
+                <li><strong>Google Kubernetes Engine:</strong> Managed Kubernetes cluster</li>
+                <li><strong>Load Balancer:</strong> External traffic routing</li>
+                <li><strong>Auto-Scaling:</strong> HPA based on CPU/memory</li>
+            </ul>
+        </div>
+
+        <h2 id="tech-stack">💻 Technology Stack</h2>
+
+        <div class="tech-stack">
+            <div class="tech-item">☕ Java 17 LTS</div>
+            <div class="tech-item">🍃 Spring Boot 2.7</div>
+            <div class="tech-item">⚛️ React 18</div>
+            <div class="tech-item">🔨 Maven 3.9</div>
+            <div class="tech-item">🐳 Docker</div>
+            <div class="tech-item">☸️ Kubernetes</div>
+            <div class="tech-item">⎈ Helm 3</div>
+            <div class="tech-item">🔄 ArgoCD</div>
+            <div class="tech-item">⚡ GitHub Actions</div>
+            <div class="tech-item">☁️ Google Cloud</div>
+            <div class="tech-item">🐋 Docker Hub</div>
+            <div class="tech-item">📊 Grafana</div>
+        </div>
+
+        <h2 id="setup">⚙️ Complete Setup Guide</h2>
+
+        <h3>Prerequisites</h3>
+        <div class="code-block">
+            # Required software
+            - Java 17 JDK
+            - Maven 3.9+
+            - Docker 20+
+            - kubectl
+            - gcloud CLI
+            - Git
+        </div>
+
+        <h3>Step 1: Clone Repository</h3>
+        <div class="code-block">
+            git clone https://github.com/meyrow/maven-hello-world.git
+            cd maven-hello-world
+        </div>
+
+        <h3>Step 2: Build Application</h3>
+        <div class="code-block">
+            cd myapp
+            mvn clean package -Dmaven.test.skip=true
+        </div>
+
+        <h3>Step 3: Build Docker Image</h3>
+        <div class="code-block">
+            docker build -t ilanm/maven-hello-world:1.0.0 .
+            docker push ilanm/maven-hello-world:1.0.0
+        </div>
+
+        <h3>Step 4: Create GKE Cluster</h3>
+        <div class="code-block">
+            gcloud container clusters create maven-hello-world-cluster \
+            --zone=us-central1-a \
+            --machine-type=e2-medium \
+            --num-nodes=2
+        </div>
+
+        <h3>Step 5: Install ArgoCD</h3>
+        <div class="code-block">
+            kubectl create namespace argocd
+            kubectl apply -n argocd -f \
+            https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+            # Expose ArgoCD UI
+            kubectl patch svc argocd-server -n argocd \
+            -p '{"spec": {"type": "LoadBalancer"}}'
+        </div>
+
+        <h3>Step 6: Deploy Application</h3>
+        <div class="code-block">
+            kubectl apply -f argocd/application.yaml
+        </div>
+
+        <div class="success">
+            ✅ <strong>Setup Complete!</strong> Your application is now deployed and managed by GitOps.
+        </div>
+
+        <h2 id="deployment">🚀 Deployment Pipeline</h2>
+
+        <h3>Automated Deployment Flow</h3>
+        <ol>
+            <li><strong>Developer pushes code</strong> to GitHub repository</li>
+            <li><strong>GitHub Actions triggers</strong> CI/CD workflow</li>
+            <li><strong>Maven builds</strong> the application JAR</li>
+            <li><strong>Docker builds</strong> container image with multi-stage optimization</li>
+            <li><strong>Image tagged</strong> with version-gitsha (e.g., 1.0.1-abc123f)</li>
+            <li><strong>Image pushed</strong> to Docker Hub registry</li>
+            <li><strong>Helm chart updated</strong> with new image tag</li>
+            <li><strong>Changes committed</strong> back to Git repository</li>
+            <li><strong>ArgoCD detects</strong> Git repository changes</li>
+            <li><strong>ArgoCD syncs</strong> cluster state with Git</li>
+            <li><strong>Kubernetes pulls</strong> new image from Docker Hub</li>
+            <li><strong>Rolling update</strong> deploys new version with zero downtime</li>
+        </ol>
+
+        <h3>Version Strategy</h3>
+        <p>
+            We use semantic versioning combined with Git commit SHAs for unique, traceable deployments:
+        </p>
+        <div class="code-block">
+            Format: {base-version}-{git-sha}
+            Example: 1.0.1-abc123f
+
+            Tags created per build:
+            - 1.0.1-abc123f  (unique deployment tag)
+            - 1.0.1          (stable base version)
+            - latest         (always points to most recent)
+        </div>
+
+        <h2 id="gitops">🔄 GitOps Workflow</h2>
+
+        <h3>GitOps Principles</h3>
+        <div class="step">
+            <h4>1. Declarative</h4>
+            <p>The entire system is described declaratively in Git using Kubernetes manifests and Helm charts.</p>
+        </div>
+
+        <div class="step">
+            <h4>2. Versioned and Immutable</h4>
+            <p>All changes are version-controlled with complete audit history in Git.</p>
+        </div>
+
+        <div class="step">
+            <h4>3. Pulled Automatically</h4>
+            <p>ArgoCD continuously monitors Git and automatically applies changes to the cluster.</p>
+        </div>
+
+        <div class="step">
+            <h4>4. Continuously Reconciled</h4>
+            <p>ArgoCD ensures cluster state matches Git state, auto-healing any drift.</p>
+        </div>
+
+        <h3>Making Changes</h3>
+        <div class="code-block">
+            # 1. Update code
+            vim myapp/src/main/java/com/myapp/App.java
+
+            # 2. Commit and push
+            git add .
+            git commit -m "feat: add new feature"
+            git push origin master
+
+            # 3. Watch automated deployment
+            # - GitHub Actions builds and pushes
+            # - ArgoCD detects and syncs
+            # - New version deployed automatically
+        </div>
+
+        <h3>Rollback Process</h3>
+        <div class="code-block">
+            # Option 1: Git revert (recommended)
+            git revert HEAD
+            git push origin master
+
+            # Option 2: Helm rollback
+            helm rollback maven-hello-world -n default
+
+            # Option 3: ArgoCD UI
+            # Navigate to app → History → Click previous version
+        </div>
+
+        <h2 id="monitoring">📊 Monitoring & Operations</h2>
+
+        <h3>Health Endpoints</h3>
+        <table>
+            <tr>
+                <th>Endpoint</th>
+                <th>Purpose</th>
+                <th>Used By</th>
+            </tr>
+            <tr>
+                <td>/health</td>
+                <td>Application health status</td>
+                <td>Kubernetes probes, monitoring</td>
+            </tr>
+            <tr>
+                <td>/api/info</td>
+                <td>Application metadata</td>
+                <td>Observability tools</td>
+            </tr>
+            <tr>
+                <td>/actuator/health</td>
+                <td>Spring Boot actuator health</td>
+                <td>Advanced monitoring</td>
+            </tr>
+        </table>
+
+        <h3>Kubernetes Health Probes</h3>
+        <div class="code-block">
+            livenessProbe:
+            httpGet:
+            path: /health
+            port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+
+            readinessProbe:
+            httpGet:
+            path: /health
+            port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 5
+        </div>
+
+        <h3>Scaling Configuration</h3>
+        <div class="code-block">
+            # Horizontal Pod Autoscaler (HPA)
+            apiVersion: autoscaling/v2
+            kind: HorizontalPodAutoscaler
+            spec:
+            minReplicas: 2
+            maxReplicas: 10
+            metrics:
+            - type: Resource
+            resource:
+            name: cpu
+            target:
+            type: Utilization
+            averageUtilization: 80
+        </div>
+
+        <h2 id="troubleshooting">🔧 Troubleshooting</h2>
+
+        <h3>Common Issues</h3>
+
+        <div class="step">
+            <h4>Issue: Pods not starting</h4>
+            <div class="code-block">
+                # Check pod status
+                kubectl get pods -n default
+
+                # Describe pod
+                kubectl describe pod {pod-name} -n default
+
+                # Check logs
+                kubectl logs {pod-name} -n default
+            </div>
+        </div>
+
+        <div class="step">
+            <h4>Issue: ArgoCD not syncing</h4>
+            <div class="code-block">
+                # Check ArgoCD application status
+                kubectl get application -n argocd
+
+                # Describe application
+                kubectl describe application maven-hello-world -n argocd
+
+                # Manual sync
+                kubectl patch application maven-hello-world -n argocd \
+                --type merge -p '{"operation":{"sync":{}}}'
+            </div>
+        </div>
+
+        <div class="step">
+            <h4>Issue: Service not accessible</h4>
+            <div class="code-block">
+                # Check service
+                kubectl get svc maven-hello-world -n default
+
+                # Check endpoints
+                kubectl get endpoints maven-hello-world -n default
+
+                # Test from within cluster
+                kubectl run -it --rm debug --image=curlimages/curl --restart=Never \
+                -- curl http://maven-hello-world/health
+            </div>
+        </div>
+
+        <h3>Useful Commands</h3>
+        <div class="code-block">
+            # View all resources
+            kubectl get all -n default
+
+            # Check cluster nodes
+            kubectl get nodes
+
+            # View events
+            kubectl get events -n default --sort-by='.lastTimestamp'
+
+            # Port forward for local testing
+            kubectl port-forward svc/maven-hello-world 8080:80 -n default
+
+            # View ArgoCD admin password
+            kubectl -n argocd get secret argocd-initial-admin-secret \
+            -o jsonpath="{.data.password}" | base64 -d
+        </div>
+
+        <h2>📚 Additional Resources</h2>
+        <ul>
+            <li><a href="https://github.com/meyrow/maven-hello-world" target="_blank">GitHub Repository</a></li>
+            <li><a href="https://hub.docker.com/r/ilanm/maven-hello-world" target="_blank">Docker Hub Images</a></li>
+            <li><a href="https://argo-cd.readthedocs.io/" target="_blank">ArgoCD Documentation</a></li>
+            <li><a href="https://kubernetes.io/docs/" target="_blank">Kubernetes Documentation</a></li>
+            <li><a href="https://helm.sh/docs/" target="_blank">Helm Documentation</a></li>
+        </ul>
+
+        <div class="success" style="margin-top: 30px; text-align: center;">
+            <h3>🎉 Tutorial Complete!</h3>
+            <p>You now have a complete understanding of the platform architecture and operations.</p>
+            <a href="/" class="back-link" style="margin-top: 15px;">← Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

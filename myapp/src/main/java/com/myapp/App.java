@@ -25,7 +25,6 @@ public class App {
         System.out.println("🚀 Application started successfully!");
         System.out.println("📡 Server running on http://localhost:8080");
         System.out.println("🌐 Dashboard available at http://localhost:8080");
-        System.out.println("👽 Ready for extraction from Earth!");
     }
 
     @RestController
@@ -40,8 +39,8 @@ public class App {
         @GetMapping("/greeting")
         public Map<String, Object> greeting() {
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Hello World from " + AUTHOR + "! 👽");
-            response.put("status", "Spaceship signal transmitted successfully");
+            response.put("message", "Hello World from " + AUTHOR + "!");
+            response.put("status", "Service operational");
             response.put("version", version);
             response.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             return response;
@@ -54,7 +53,6 @@ public class App {
             response.put("version", version);
             response.put("author", AUTHOR);
             response.put("description", "Production-ready Spring Boot REST API");
-            response.put("mission", "Signal spaceship from Kepler-186f for extraction");
             response.put("startTime", startTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             response.put("uptime", getUptime(startTime));
 
