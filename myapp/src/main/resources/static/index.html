@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOps Exercise - Ilan's Project</title>
+    <title>Cloud-Native Demo - Modern DevOps Platform</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -71,6 +71,7 @@
             border-radius: 20px;
             font-size: 14px;
             margin-top: 10px;
+            margin-right: 8px;
         }
 
         .grid {
@@ -275,11 +276,13 @@
                 <div className="header">
                     <div className="profile-image">IL</div>
                     <div className="profile-info">
-                        <h1>Ilan's DevOps Exercise</h1>
-                        <p>🏢 Bank Leumi - ML Programmer & Cloud Infrastructure Engineer</p>
-                        <p>🎓 MA in Data Mining | AWS Solutions Architect (in progress)</p>
-                        <p>💼 Extensive hands-on: AWS Lambda, ECS, Terraform, CloudWatch, Grafana</p>
-                        <span className="badge">🚀 Production-Ready Solution</span>
+                        <h1>Cloud-Native Application Platform</h1>
+                        <p>🚀 Modern DevOps & Cloud Infrastructure</p>
+                        <p>💼 ML Engineering | Cloud Architecture | Full-Stack Development</p>
+                        <p>🎓 AWS Solutions Architect | Data Mining Specialist</p>
+                        <span className="badge">Production-Ready</span>
+                        <span className="badge">GitOps Enabled</span>
+                        <span className="badge">Auto-Scaling</span>
                     </div>
                 </div>
 
@@ -289,7 +292,7 @@
                     <div className="card">
                         <h2>
                             <span className="icon">❤️</span>
-                            Live Health Check
+                            Live Health Monitoring
                         </h2>
 
                         <div className="health-status">
@@ -328,12 +331,12 @@
                                 </div>
 
                                 <div style={{marginTop: '15px', fontSize: '14px', color: '#718096'}}>
-                                    <strong>What this shows:</strong>
+                                    <strong>Capabilities:</strong>
                                     <ul style={{marginLeft: '20px', marginTop: '5px'}}>
-                                        <li>✅ Application is running and responsive</li>
-                                        <li>✅ Health endpoint works for Kubernetes probes</li>
-                                        <li>✅ Uptime tracking demonstrates reliability</li>
-                                        <li>✅ Production-ready monitoring capability</li>
+                                        <li>✅ Real-time health monitoring</li>
+                                        <li>✅ Kubernetes-ready health probes</li>
+                                        <li>✅ Auto-scaling based on metrics</li>
+                                        <li>✅ Zero-downtime deployments</li>
                                     </ul>
                                 </div>
                             </>
@@ -353,7 +356,7 @@
                     <div className="card">
                         <h2>
                             <span className="icon">🔌</span>
-                            Available Endpoints
+                            REST API Endpoints
                         </h2>
 
                         <div className="endpoint">
@@ -361,7 +364,7 @@
                             <span>/</span>
                         </div>
                         <p style={{fontSize: '14px', color: '#718096', marginBottom: '15px'}}>
-                            Main greeting endpoint with JSON response
+                            Main application dashboard with monitoring UI
                         </p>
 
                         <div className="endpoint">
@@ -369,15 +372,15 @@
                             <span>/health</span>
                         </div>
                         <p style={{fontSize: '14px', color: '#718096', marginBottom: '15px'}}>
-                            Health check for Kubernetes liveness/readiness probes
+                            Health check endpoint for orchestration platforms
                         </p>
 
                         <div className="endpoint">
                             <span className="method">GET</span>
-                            <span>/info</span>
+                            <span>/api/info</span>
                         </div>
                         <p style={{fontSize: '14px', color: '#718096', marginBottom: '15px'}}>
-                            Complete application information and metadata
+                            Application metadata and system information
                         </p>
 
                         <div style={{marginTop: '20px'}}>
@@ -390,39 +393,39 @@
                                 <span className="tech-badge">☸️ Kubernetes</span>
                                 <span className="tech-badge">⎈ Helm</span>
                                 <span className="tech-badge">🔄 ArgoCD</span>
-                                <span className="tech-badge">☁️ GKE</span>
+                                <span className="tech-badge">☁️ GCP</span>
                             </div>
                         </div>
                     </div>
 
-                    {/* Project Info */}
+                    {/* Architecture */}
                     <div className="card">
                         <h2>
-                            <span className="icon">🎯</span>
-                            Project Architecture
+                            <span className="icon">🏗️</span>
+                            Platform Architecture
                         </h2>
 
                         <div style={{marginBottom: '15px'}}>
                             <strong style={{color: '#2d3748', display: 'block', marginBottom: '10px'}}>
-                                GitOps Workflow:
+                                GitOps Deployment Pipeline:
                             </strong>
                             <div style={{fontSize: '14px', color: '#4a5568', lineHeight: '1.8'}}>
-                                <p>1️⃣ <strong>GitHub Actions (CI)</strong> - Build & push Docker image</p>
-                                <p>2️⃣ <strong>Docker Hub</strong> - Store container images</p>
-                                <p>3️⃣ <strong>ArgoCD</strong> - Watch Git repo & auto-sync</p>
-                                <p>4️⃣ <strong>GKE Autopilot</strong> - Deploy with Helm chart</p>
+                                <p>1️⃣ <strong>CI/CD</strong> - GitHub Actions builds & tests</p>
+                                <p>2️⃣ <strong>Registry</strong> - Docker Hub image repository</p>
+                                <p>3️⃣ <strong>GitOps</strong> - ArgoCD continuous delivery</p>
+                                <p>4️⃣ <strong>Orchestration</strong> - Kubernetes auto-scaling</p>
                             </div>
                         </div>
 
                         <div style={{background: '#edf2f7', padding: '15px', borderRadius: '8px', marginTop: '15px'}}>
-                            <strong style={{color: '#2d3748'}}>💡 Key Features:</strong>
+                            <strong style={{color: '#2d3748'}}>💡 Platform Features:</strong>
                             <ul style={{marginLeft: '20px', marginTop: '5px', color: '#4a5568', fontSize: '14px', lineHeight: '1.6'}}>
-                                <li>Production-ready Spring Boot REST API</li>
-                                <li>Multistage Docker build (70% size reduction)</li>
-                                <li>Non-root container security</li>
-                                <li>Kubernetes health probes</li>
-                                <li>GitOps deployment with ArgoCD</li>
-                                <li>React dashboard for monitoring</li>
+                                <li>Microservices architecture with RESTful APIs</li>
+                                <li>Containerized deployment with Docker</li>
+                                <li>Automated CI/CD with version tagging</li>
+                                <li>GitOps workflow for declarative deployments</li>
+                                <li>Horizontal pod autoscaling (HPA)</li>
+                                <li>Production-grade observability</li>
                             </ul>
                         </div>
                     </div>
@@ -431,16 +434,16 @@
                 {/* Footer */}
                 <div className="footer">
                     <p style={{marginBottom: '10px'}}>
-                        <strong>DevOps Exercise - Interview Homework</strong>
+                        <strong>Modern Cloud-Native Application Platform</strong>
                     </p>
                     <p style={{fontSize: '14px'}}>
-                        Built with: Spring Boot + React + Docker + Kubernetes + Helm + ArgoCD + GKE
+                        Built with enterprise-grade DevOps practices and cloud-native technologies
                     </p>
                     <p style={{fontSize: '14px', marginTop: '5px'}}>
-                        🚀 Demonstrating production-ready DevOps practices
+                        Automated deployment • Continuous delivery • Production monitoring
                     </p>
                     <p style={{fontSize: '12px', marginTop: '10px', color: '#a0aec0'}}>
-                        👽 Mission: Signal spaceship from Kepler-186f for extraction from Earth
+                        Demonstrating modern software engineering and cloud infrastructure expertise
                     </p>
                 </div>
             </div>
