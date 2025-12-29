@@ -27,9 +27,12 @@ jobs:
         id: version
         run: |
           cd myapp
-          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          BASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          GIT_SHA=$(git rev-parse --short HEAD)
+          VERSION="${BASE_VERSION}-${GIT_SHA}"
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-          echo "Extracted version: $VERSION"
+          echo "BASE_VERSION=$BASE_VERSION" >> $GITHUB_OUTPUT
+          echo "Built version: $VERSION (base: $BASE_VERSION, sha: $GIT_SHA)"
 
       - name: Build with Maven
         run: |
@@ -52,6 +55,7 @@ jobs:
           push: true
           tags: |
             ilanm/maven-hello-world:${{ steps.version.outputs.VERSION }}
+            ilanm/maven-hello-world:${{ steps.version.outputs.BASE_VERSION }}
             ilanm/maven-hello-world:latest
           cache-from: type=registry,ref=ilanm/maven-hello-world:latest
           cache-to: type=inline
@@ -99,8 +103,12 @@ jobs:
         id: version
         run: |
           cd myapp
-          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          BASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          GIT_SHA=$(git rev-parse --short HEAD)
+          VERSION="${BASE_VERSION}-${GIT_SHA}"
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "BASE_VERSION=$BASE_VERSION" >> $GITHUB_OUTPUT
+          echo "Built version: $VERSION (base: $BASE_VERSION, sha: $GIT_SHA)"
 
       - name: Test Docker image
         run: |
