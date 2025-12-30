@@ -7,7 +7,7 @@
 
   <groupId>com.example</groupId>
   <artifactId>maven-hello-world</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <packaging>jar</packaging>
 
   <name>Maven Hello World</name>
