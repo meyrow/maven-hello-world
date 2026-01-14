@@ -4,7 +4,7 @@ replicaCount: 2
 image:
   repository: ilanm/maven-hello-world
   pullPolicy: IfNotPresent
-  tag: "1.0.1-129ef3f"
+  tag: "1.0.1-5be60d7"
 
 imagePullSecrets: []
 nameOverride: ""
