@@ -26,6 +26,7 @@ resource "google_container_cluster" "primary" {
   # node pool and immediately delete it.
   remove_default_node_pool = true
   initial_node_count       = 1
+  deletion_protection = false
 
   # Network configuration
   network    = "default"
@@ -105,7 +106,7 @@ resource "google_container_node_pool" "primary_nodes" {
 
 # Service Account for GKE nodes
 resource "google_service_account" "gke_sa" {
-  account_id   = "${var.cluster_name}-sa"
+  account_id   = var.service_account_id
   display_name = "GKE Service Account for ${var.cluster_name}"
   description  = "Service account for GKE cluster nodes"
 }

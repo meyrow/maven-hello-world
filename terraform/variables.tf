@@ -56,3 +56,8 @@ variable "environment" {
   type        = string
   default     = "demo"
 }
+variable "service_account_id" {
+  description = "Service account ID (max 30 chars)"
+  type        = string
+  default     = "gke-cluster-sa"
+}

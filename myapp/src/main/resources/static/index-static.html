@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud-Native Demo - Modern DevOps Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .profile-info p {
+            color: #4a5568;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .contact-info {
+            margin-top: 12px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .contact-info a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: #5a67d8;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 10px;
+            margin-right: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+        }
+
+        .icon {
+            font-size: 24px;
+        }
+
+        .health-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-up {
+            background: #48bb78;
+        }
+
+        .status-down {
+            background: #f56565;
+        }
+
+        .status-loading {
+            background: #ecc94b;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .health-detail {
+            background: #f7fafc;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #667eea;
+        }
+
+        .health-detail label {
+            font-weight: 600;
+            color: #4a5568;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .health-detail .value {
+            color: #2d3748;
+            font-size: 16px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        button:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .endpoint {
+            background: #f7fafc;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .method {
+            background: #48bb78;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .tech-badge {
+            display: inline-block;
+            background: #edf2f7;
+            color: #2d3748;
+            padding: 5px 12px;
+            margin: 5px 5px 5px 0;
+            border-radius: 15px;
+            font-size: 13px;
+        }
+
+        .footer {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            color: #2d3748;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #5a67d8;
+        }
+
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .portfolio-note {
+            background: #fef5e7;
+            border-left: 4px solid #f39c12;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #7d6608;
+        }
+
+        .portfolio-note strong {
+            color: #5d4604;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <div class="profile-image">
+            <span style="font-size: 60px;">👨‍💻</span>
+        </div>
+        <div class="profile-info">
+            <h1>Ilan Meyrowitsch</h1>
+            <p style="color: #4a5568; marginBottom: 5px;">
+                DevOps Specialist & Cloud Infrastructure Engineer
+            </p>
+            <p style="color: #4a5568; marginBottom: 5px;">
+                🚀 ML Engineering | Cloud Architecture | DevOps | Java & React
+            </p>
+            <p style="color: #4a5568; marginBottom: 5px;">
+                🎓 AWS Solutions Architect | Data Mining (MA)
+            </p>
+
+            <div class="contact-info">
+                <span>📱 <a href="tel:+972584004880">+972-58-400-4880</a></span>
+                <span>💬 <a href="https://wa.me/972584004880" target="_blank" rel="noopener noreferrer">WhatsApp</a></span>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <span class="badge">Production-Ready</span>
+                <span class="badge">GitOps Enabled</span>
+                <span class="badge">Auto-Scaling</span>
+            </div>
+            <p style="font-size: 14px; margin-top: 15px;">
+                <a href="/tutorial.html">📚 View Complete Tutorial Guide →</a>
+            </p>
+            <p style="font-size: 14px; margin-top: 10px;">
+                <a href="https://github.com/meyrow/maven-hello-world" target="_blank" rel="noopener noreferrer">
+                    💻 GitHub Repository →
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid">
+        <!-- Health Check Card -->
+        <div class="card">
+            <h2>
+                <span class="icon">❤️</span>
+                Live Health Monitoring
+            </h2>
+
+            <div class="portfolio-note">
+                <strong>📌 Portfolio Demo:</strong> This is a static demonstration. The original platform ran on GKE with real-time health monitoring via ArgoCD.
+            </div>
+
+            <div class="health-status">
+                <div class="status-indicator status-up" id="statusIndicator"></div>
+                <strong id="statusText">Service is UP ✅</strong>
+            </div>
+
+            <div class="health-detail">
+                <label>Application</label>
+                <div class="value" id="appName">maven-hello-world</div>
+            </div>
+
+            <div class="health-detail">
+                <label>Version</label>
+                <div class="value" id="appVersion">1.0.1</div>
+            </div>
+
+            <div class="health-detail">
+                <label>Last Deploy</label>
+                <div class="value" id="uptime">2 hours ago</div>
+            </div>
+
+            <div style="margin-top: 15px; font-size: 14px; color: #718096;">
+                <strong>Capabilities:</strong>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>✅ Real-time health monitoring</li>
+                    <li>✅ Kubernetes-ready health probes</li>
+                    <li>✅ Auto-scaling based on metrics</li>
+                    <li>✅ Zero-downtime deployments</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <button id="refreshBtn" onclick="refreshHealth()">🔄 Refresh</button>
+                <button id="autoRefreshBtn" onclick="toggleAutoRefresh()">▶️ Auto Refresh</button>
+            </div>
+        </div>
+
+        <!-- API Endpoints -->
+        <div class="card">
+            <h2>
+                <span class="icon">🔌</span>
+                REST API Endpoints
+            </h2>
+
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <span>/</span>
+            </div>
+            <p style="font-size: 14px; color: #718096; margin-bottom: 15px;">
+                Main application dashboard with monitoring UI
+            </p>
+
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <span>/health</span>
+            </div>
+            <p style="font-size: 14px; color: #718096; margin-bottom: 15px;">
+                Health check endpoint for orchestration platforms
+            </p>
+
+            <div class="endpoint">
+                <span class="method">GET</span>
+                <span>/api/info</span>
+            </div>
+            <p style="font-size: 14px; color: #718096; margin-bottom: 15px;">
+                Application metadata and system information
+            </p>
+
+            <div style="margin-top: 20px;">
+                <strong>Technology Stack:</strong>
+                <div>
+                    <span class="tech-badge">☕ Java 17</span>
+                    <span class="tech-badge">🍃 Spring Boot</span>
+                    <span class="tech-badge">⚛️ React</span>
+                    <span class="tech-badge">🐳 Docker</span>
+                    <span class="tech-badge">☸️ Kubernetes</span>
+                    <span class="tech-badge">⎈ Helm</span>
+                    <span class="tech-badge">🔄 ArgoCD</span>
+                    <span class="tech-badge">☁️ GCP</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Architecture -->
+        <div class="card">
+            <h2>
+                <span class="icon">🏗️</span>
+                Platform Architecture
+            </h2>
+
+            <div style="margin-bottom: 15px;">
+                <strong style="color: #2d3748; display: block; margin-bottom: 10px;">
+                    GitOps Deployment Pipeline:
+                </strong>
+                <div style="font-size: 14px; color: #4a5568; line-height: 1.8;">
+                    <p>1️⃣ <strong>CI/CD</strong> - GitHub Actions builds & tests</p>
+                    <p>2️⃣ <strong>Registry</strong> - Docker Hub image repository</p>
+                    <p>3️⃣ <strong>GitOps</strong> - ArgoCD continuous delivery</p>
+                    <p>4️⃣ <strong>Orchestration</strong> - Kubernetes auto-scaling</p>
+                </div>
+            </div>
+
+            <div style="background: #edf2f7; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <strong style="color: #2d3748;">💡 Platform Features:</strong>
+                <ul style="margin-left: 20px; margin-top: 5px; color: #4a5568; font-size: 14px; line-height: 1.6;">
+                    <li>Microservices architecture with RESTful APIs</li>
+                    <li>Containerized deployment with Docker</li>
+                    <li>Automated CI/CD with version tagging</li>
+                    <li>GitOps workflow for declarative deployments</li>
+                    <li>Horizontal pod autoscaling (HPA)</li>
+                    <li>Production-grade observability</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p style="margin-bottom: 10px;">
+            <strong>Modern Cloud-Native Application Platform</strong>
+        </p>
+        <p style="font-size: 14px;">
+            Built with enterprise-grade DevOps practices and cloud-native technologies
+        </p>
+        <p style="font-size: 14px; margin-top: 5px;">
+            Automated deployment • Continuous delivery • Production monitoring
+        </p>
+        <p style="font-size: 14px; margin-top: 15px;">
+            <a href="/tutorial.html">📚 View Complete Tutorial Guide →</a>
+        </p>
+        <p style="font-size: 14px; margin-top: 10px;">
+            <a href="https://github.com/meyrow/maven-hello-world" target="_blank" rel="noopener noreferrer">
+                💻 View Source Code on GitHub →
+            </a>
+        </p>
+        <p style="font-size: 12px; margin-top: 10px; color: #a0aec0;">
+            Demonstrating modern software engineering and cloud infrastructure expertise
+        </p>
+    </div>
+</div>
+
+<script>
+    // Fake health check data - updates when refresh is clicked
+    let deployTime = new Date(Date.now() - (2 * 60 * 60 * 1000)); // 2 hours ago initially
+    let autoRefreshInterval = null;
+    let autoRefreshEnabled = false;
+
+    function formatTimeSince(date) {
+        const now = new Date();
+        const diff = Math.floor((now - date) / 1000); // seconds
+
+        if (diff < 60) {
+            return diff === 0 ? 'Just now' : `${diff} sec ago`;
+        } else if (diff < 3600) {
+            const mins = Math.floor(diff / 60);
+            return `${mins} min ago`;
+        } else if (diff < 86400) {
+            const hours = Math.floor(diff / 3600);
+            return `${hours} hr ago`;
+        } else {
+            const days = Math.floor(diff / 86400);
+            return `${days} day${days > 1 ? 's' : ''} ago`;
+        }
+    }
+
+    function updateUptime() {
+        document.getElementById('uptime').textContent = formatTimeSince(deployTime);
+    }
+
+    function refreshHealth() {
+        const btn = document.getElementById('refreshBtn');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+
+        // Show loading state
+        btn.textContent = '🔄 Checking...';
+        btn.disabled = true;
+        statusIndicator.className = 'status-indicator status-loading';
+        statusText.textContent = 'Checking...';
+
+        // Simulate API call delay
+        setTimeout(() => {
+            // Reset deploy time to "just now"
+            deployTime = new Date();
+            updateUptime();
+
+            // Show success state
+            statusIndicator.className = 'status-indicator status-up';
+            statusText.textContent = 'Service is UP ✅';
+            btn.textContent = '✅ Refreshed!';
+
+            // Reset button after 1 second
+            setTimeout(() => {
+                btn.textContent = '🔄 Refresh';
+                btn.disabled = false;
+            }, 1000);
+        }, 500);
+    }
+
+    function toggleAutoRefresh() {
+        const btn = document.getElementById('autoRefreshBtn');
+        autoRefreshEnabled = !autoRefreshEnabled;
+
+        if (autoRefreshEnabled) {
+            btn.textContent = '⏸️ Stop Auto';
+            // Auto refresh every 30 seconds
+            autoRefreshInterval = setInterval(() => {
+                refreshHealth();
+            }, 30000);
+        } else {
+            btn.textContent = '▶️ Auto Refresh';
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+        }
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        updateUptime();
+        // Update uptime display every 10 seconds
+        setInterval(updateUptime, 10000);
+    });
+</script>
+</body>
+</html>
